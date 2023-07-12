@@ -41,20 +41,40 @@ class getKanbanBoardById(View):
 class createKanbanBoard(View):
     def post(self, request, input_user_id):
         creatingUser = User.objects.filter(user_id = input_user_id)
-        if creatingUser :
+        print(User.objects.filter(user_id = input_user_id).exists())
+        
+        if creatingUser:
             jsonData = json.loads(request.body)
             serializedBoardData = KanbanBoardSerializer(data=jsonData)
             if serializedBoardData.is_valid():
                 serializedBoardData.save()
                 return JsonResponse(serializedBoardData.data, status = status.HTTP_200_OK, safe = False)
             else:
-                print("error 1")
-                return JsonResponse("", status = status.HTTP_500_INTERNAL_SERVER_ERROR)
+                return JsonResponse("No user exists with this ID.", status = status.HTTP_500_INTERNAL_SERVER_ERROR, safe = False)
+            
+    def delete(self, request, input_kanban_board_id):
+        toBeDeletedBoard = KanbanBoard.objects.get(kanban_board_id = input_kanban_board_id)
+        toBeDeletedBoard.delete()
+        return JsonResponse("Deleted",status = status.HTTP_200_OK, safe = False)
+    
+    def put(self, request, input_kanban_board_id):
+        # jsonData = json.loads(request.body)
+        #     serializedBoardData = KanbanBoardSerializer(data=jsonData)
+        #     if serializedBoardData.is_valid():
+        #         serializedBoardData.save()
+        #         return JsonResponse(serializedBoardData.data, status = status.HTTP_200_OK, safe = False)
+        #     else:
+        #         return JsonResponse("No user exists with this ID.", status = status.HTTP_500_INTERNAL_SERVER_ERROR, safe = False)
+        searched = KanbanBoard.objects.get(kanban_board_id = input_kanban_board_id)
+        jxsonData = json.loads(request.body)
+        serialized = KanbanBoardSerializer(searched, data = jxsonData)
+        if serialized.is_valid():
+            serialized.save()
+            return JsonResponse("ok", status = status.HTTP_200_OK, safe = False)
         else:
-            message = '{"message" : "No User with this user_id"}'
-            jsonMessage = json.loads(message)
-            # print("error 2")
-            return JsonResponse(jsonMessage, status = status.HTTP_203_NON_AUTHORITATIVE_INFORMATION)
-    def 
+            return JsonResponse(serialized.errors, status = status.HTTP_400_BAD_REQUEST, safe = False)
+        
+        
+        
         
 
