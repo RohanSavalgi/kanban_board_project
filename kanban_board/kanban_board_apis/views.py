@@ -12,9 +12,10 @@ all_error_dictionary = {
     "not_found_element": JsonResponse(json.loads('{"error" : "No element was found with this ID"}'), status = status.HTTP_404_NOT_FOUND, safe = False),
     "request_data_invalid" : JsonResponse(json.loads('{"error" : "The request data which was entered is not valid."}'), status = status.HTTP_404_NOT_FOUND, safe = False),
     "could_not_update": JsonResponse(json.loads('{"error" : "We could not update the database."}'), status = status.HTTP_404_NOT_FOUND, safe = False),
+    "no_elements_found": JsonResponse(json.loads('{"error" : "No elements found."}'), status = status.HTTP_404_NOT_FOUND, safe = False),
 }
 
-# Create your views here.
+# Checking functions
 def checkRequestData(request):
     for i in request.values():
         if type(i) == str:
@@ -36,8 +37,7 @@ def checkParameter(parameter):
         return False
 # Global variables
 
-# API to get all kanban boards
-# Sample API call -http://127.0.0.1:8000/kanbanBoards/getAllKanbanBoard/
+# API KANBAN BOARD VIEWS
 class getAllKanbanBoards(View):
     def get(self, request):
         allKanbanBoards = KanbanBoard.objects.all()
@@ -52,11 +52,9 @@ class getKanbanBoardByUserId(View):
         
         # Get logic
         allKanbanBoardsByUsedId = KanbanBoard.objects.filter(user_id = input_user_id)
-        serializedBoards = KanbanBoardSerializer(allKanbanBoardsByUsedId, many = True)
-        return JsonResponse(serializedBoards.data, status = status.HTTP_200_OK, safe = False)
-   
-#API to get a single kanban board based on the id given
-# Sample API call - http://127.0.0.1:8000/kanbanBoards/getKanbanBoardById/1/
+        serializedAllKanbanBoardsByUsedId = KanbanBoardSerializer(allKanbanBoardsByUsedId, many = True)
+        return JsonResponse(serializedAllKanbanBoardsByUsedId.data, status = status.HTTP_200_OK, safe = False)
+
 class getKanbanBoardById(View): 
     def get(self, request, kanban_board_id):
         # Checking the kanban board id is valid or not
@@ -72,7 +70,6 @@ class getKanbanBoardById(View):
         else:
             return all_error_dictionary['not_found_element']
     
-# API to create a kanban board, it also checks if the user is present
 class createKanbanBoard(View):
     def post(self, request, input_user_id):
         # Checking if the parameter is valid or not
@@ -80,24 +77,21 @@ class createKanbanBoard(View):
             return all_error_dictionary['invalid_id_error']            
         
         # check all the inputs are correct or not
-        # jsonDataOfRequest = json.loads(request.body)
-        # if not checkRequestData(jsonDataOfRequest):
-        #     return JsonResponse("The request data is not valid.", status = status.HTTP_400_BAD_REQUEST, safe = None)
+        jsonDataOfRequest = json.loads(request.body)
+        if not checkRequestData(jsonDataOfRequest):
+            return all_error_dictionary['request_data_invalid']
         
-        # ====================================================================> changes required 
+        # Checking if user exists or not
         creatingUser = Users.objects.filter(user_id = input_user_id)
-        print(creatingUser.exists())
-        
-        if creatingUser:
-            jsonData = json.loads(request.body)
-            serializedBoardData = KanbanBoardSerializer(data=jsonData)
-            if serializedBoardData.is_valid():
-                serializedBoardData.save()
-                return JsonResponse(serializedBoardData.data, status = status.HTTP_200_OK, safe = False)
-            else:
-                return all_error_dictionary['invalid_id_error']
+        if not creatingUser.exists():
+            return all_error_dictionary['not_found_element']
+
+        serializedBoardData = KanbanBoardSerializer(data=jsonDataOfRequest)
+        if serializedBoardData.is_valid():
+            serializedBoardData.save()
+            return JsonResponse(serializedBoardData.data, status = status.HTTP_200_OK, safe = False)
         else:
-            return JsonResponse("Hit here", status = status.HTTP_400_BAD_REQUEST, safe = False)
+            return all_error_dictionary['invalid_id_error']
             
 class deleteKanbanBoard(View):
     def delete(self, request, input_kanban_board_id):
@@ -138,6 +132,7 @@ class updateKanbanBoard(View):
             return JsonResponse(serializer.data, status = status.HTTP_200_OK, safe = False)
         return all_error_dictionary['could_not_update']
            
+# ALL EVENTS VIEWS
 class getAllEvents(View):
     def get(self, request):
         allEventsList = Event.objects.all()
@@ -190,19 +185,41 @@ class updateEvent(View):
     
 class deleteEvent(View):
     def delete(self, request, input_event_id):
+        # Checking if the input event id is valid or not
+        if not checkParameter(input_event_id):
+            return all_error_dictionary['invalid_id_error']
+        
+        eventExist = Event.objects.filter(event_id = input_event_id)
+        if not eventExist.exists():
+            return all_error_dictionary['not_found_element']
+        
         toBeDeletedEvent = Event.objects.get(event_id = input_event_id)
         toBeDeletedEvent.delete()
         return JsonResponse("Deleted!", status = status.HTTP_200_OK, safe = False)
     
+# ALL COMMENTS VIEWS    
 class getCommentsByEventId(View):
     def get(self, request, input_event_id):
+        if not checkParameter(input_event_id):
+            return all_error_dictionary['invalid_id_error']
+        
+        eventExists = Event.objects.filter(event_id = input_event_id)
+        if not eventExists.exists():
+            return all_error_dictionary['not_found_element']
+        
         commentsForPerticularEvent = Comment.objects.filter(event = input_event_id)
+        if not commentsForPerticularEvent.exists():
+            return all_error_dictionary['no_elements_found']
+            
         serializersComments = CommentSerializer(commentsForPerticularEvent, many = True)
         return JsonResponse(serializersComments.data, status = status.HTTP_200_OK, safe = False)
     
 class createComment(View):
     def post(self, request):
         requestConvertedToJson = json.loads(request.body)
+        if checkRequestData(request):
+            return all_error_dictionary['request_data_invalid']
+        
         serializedComment = CommentSerializer(data = requestConvertedToJson)
         if serializedComment.is_valid():
             serializedComment.save()
@@ -212,17 +229,34 @@ class createComment(View):
     
 class updateComment(View):
     def put(self, request,input_comment_id):
+        if not checkParameter(input_comment_id):
+            return all_error_dictionary['invalid_id_error']
+        
         requestConvertedToJson = json.loads(request.body)
+        if not checkRequestData(requestConvertedToJson):
+            return all_error_dictionary['request_data_invalid']
+        
+        existsComment = Comment.objects.filter(comment_id = input_comment_id)
+        if not existsComment.exists():
+            return all_error_dictionary['not_found_element']
+        
         searchedComment = Comment.objects.get(comment_id = input_comment_id)
         serializedComment = CommentSerializer(searchedComment, data = requestConvertedToJson)
         if serializedComment.is_valid():
             serializedComment.save()
             return JsonResponse(serializedComment.data, status = status.HTTP_200_OK, safe = False)
         else:
-            return JsonResponse(serializedComment.errors, status = status.HTTP_400_BAD_REQUEST ,safe = False)
+            return all_error_dictionary['could_not_update']
 
 class deleteComment(View):
     def delete(self, request, input_comment_id):
+        if not checkParameter(input_comment_id):
+            return all_error_dictionary['invalid_id_error']
+        
+        checkCommentExistance = Comment.objects.filter(comment_id = input_comment_id)
+        if not checkCommentExistance.exists():
+            return all_error_dictionary['not_found_element']
+        
         toBeDeletedComment = Comment.objects.get(comment_id = input_comment_id)
         toBeDeletedComment.delete()
         return JsonResponse("Deleted!", status = status.HTTP_200_OK, safe = False)
