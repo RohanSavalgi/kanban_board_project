@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Comment, Event, KanbanBoard,Priority, Status, User
+from .models import *
 
 class KanbanBoardSerializer(serializers.ModelSerializer):
     class Meta:
@@ -28,6 +28,6 @@ class StatusSerializer(serializers.ModelSerializer):
         
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = Users
         fields = '__all__'
 
