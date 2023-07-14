@@ -197,16 +197,16 @@ class deleteEvent(View):
         toBeDeletedEvent.delete()
         return JsonResponse("Deleted!", status = status.HTTP_200_OK, safe = False)
     
-class getEventsByPriority(View):
-    def get(self, request, input_priority_id):
-        if not checkParameter(input_priority_id):
+class getEventsByStatus(View):
+    def get(self, request, input_status_id):
+        if not checkParameter(input_status_id):
             return all_error_dictionary['invalid_id_error']
         
-        eventsExist = Event.objects.filter(priority_id = input_priority_id)
+        eventsExist = Event.objects.filter(status_id = input_status_id)
         if not eventsExist.exists():
             return all_error_dictionary['not_found_element']
         
-        eventsByPriorityId = Event.objects.filter(priority_id = input_priority_id)
+        eventsByPriorityId = Event.objects.filter(status_id = input_status_id)
         eventsByPriorityIdJson = EventSerializer(eventsByPriorityId, many = True)
         return JsonResponse(eventsByPriorityIdJson.data, status = status.HTTP_200_OK, safe = False)
     

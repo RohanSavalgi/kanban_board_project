@@ -12,9 +12,9 @@ const KanbanBoard = () => {
           <div className="createrName"> Buzz Aldrin's Task </div>
           <button className="createButton"> Create </button>
           <div className="columns">
-            <StatusColumn title={"Not Started"} leftEvents="1" />
-            <StatusColumn title={"In Progress"} leftEvents="1" />
-            <StatusColumn title={"Completed"} leftEvents="1" />
+            <StatusColumn title={"Not Started"} status={"1"} />
+            <StatusColumn title={"In Progress"} status={"2"}/>
+            <StatusColumn title={"Completed"} status={"3"}/>
           </div>
         </div>
       </div>

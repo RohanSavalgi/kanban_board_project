@@ -18,7 +18,7 @@ urlpatterns = [
     path("createEvent/", createEvent.as_view(), name = "createEvent"),
     path("updateEvent/<str:input_event_id>/", updateEvent.as_view(), name = "updateEvent"),
     path("deleteEvent/<str:input_event_id>/", deleteEvent.as_view(), name = "deleteEvent"),
-    path("getEventsByPriority/<str:input_priority_id>/", getEventsByPriority.as_view(), name="getEventsByPriority"),
+    path("getEventsByStatus/<str:input_status_id>/", getEventsByStatus.as_view(), name="getEventsByPriority"),
     
     # Comments Paths
     path("getCommentsByEventId/<str:input_event_id>/", getCommentsByEventId.as_view(), name = "getCommentsByEventId"),

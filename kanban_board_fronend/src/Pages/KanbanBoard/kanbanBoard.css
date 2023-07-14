@@ -1,4 +1,5 @@
 .kanbanBoardField {
+  background-color: var(--main);
   width: 100vw;
   height: 100vh;
 
@@ -8,7 +9,6 @@
 }
 
 .kanbanBoard {
-  /* border: 1px solid #333; */
   width: 75%;
   height: fit-content;
 }
@@ -16,14 +16,14 @@
 .kanbanBoardTitle {
   font-size: 36px;
   font-weight: 400;
-  color: #333;
+  color: var(--text_color);
   margin-top: 5rem;
 }
 
 .createrName {
   font-size: 24px;
   font-weight: 400;
-  color: #333;
+  color:  var(--text_color);
 }
 
 .createButton {
@@ -38,7 +38,7 @@
   border-radius: 3px;
   font-size: 14px;
   font-weight: 400;
-  color: white;
+  color: whitesmoke;
   width: 6rem;
   height: 2rem;
 }
@@ -48,7 +48,7 @@
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   gap: 5rem;
   margin-top: 2rem;
 }
