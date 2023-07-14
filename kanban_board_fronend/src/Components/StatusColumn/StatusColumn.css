@@ -1,0 +1,15 @@
+.statusColumn{
+    width:100%;
+    /* border: 1px solid black; */
+}
+
+.columnTitle{
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+}
+
+.columnField{
+    background-color: #EEE;
+    padding: 1rem;
+}
