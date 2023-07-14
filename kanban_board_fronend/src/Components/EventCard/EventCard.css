@@ -1,0 +1,57 @@
+.eventCard{
+    background-color: var(--main);
+    padding: 1rem;
+}
+
+.cardHeader{
+    font-size: 16px;
+    color: var(--text_color);
+    font-weight: 500;
+}
+
+.cardContent{
+    color: var(--text_color);
+    font-size: 14px;
+    margin-top: 0.3rem;
+}
+
+.tray{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.storyPoints{
+    background-color: var(--secondary);
+    color: var(--text_color);
+    width: 28px;
+    height: fit-content;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 400;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.priority{
+    color: var(--text_color);
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.arrow{
+    width:12.5px;
+}
+
+.priorityTray{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.2rem;
+}

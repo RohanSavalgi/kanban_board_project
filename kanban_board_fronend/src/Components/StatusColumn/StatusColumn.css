@@ -6,10 +6,10 @@
 .columnTitle{
     font-size: 16px;
     font-weight: 400;
-    color: #333;
+    color: var(--text_color);
 }
 
 .columnField{
-    background-color: #EEE;
+    background-color: var(--secondary);
     padding: 1rem;
 }

@@ -1,7 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
 :root{
-  --blue: 
+  --main: #FFF;
+  --secondary: #EEE;
+  --accent: #2A4ECB;
+  --text_color: #333;
 }
 
 *{
