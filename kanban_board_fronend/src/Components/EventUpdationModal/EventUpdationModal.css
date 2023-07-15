@@ -1,4 +1,5 @@
 .modalBackground {
+  top: 0;
   position: fixed;
   width: 100vw;
   height: 100vh;
@@ -17,6 +18,123 @@
   align-items: center;
 
   background-color: var(--main);
-  width: 698px;
-  height: 418px;
+  width: fit-content;
+  height: fit-content;
+  padding: 2rem;
+  border-radius: 10px;
+}
+
+.modalPlacableContent {
+  height: 100%;
+
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalTitle {
+  color: var(--text_color);
+  font-size: 26px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  width: 100%;
+}
+
+.modalDescription {
+  display: flex;
+  flex-flow: column nowrap;
+  width: 100%;
+}
+
+.modalDescriptionField {
+  width: 400px;
+  height: 200px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  border: 1px solid #d9d9d9;
+  padding: 1rem;
+  color: #333;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.modalDescriptionText {
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-bottom: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.modalContent {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 2rem;
+  /* margin-top: 0.5rem; */
+  width: 100%;
+}
+
+.modalDropDown {
+  width: 185px;
+  height: 32px;
+  flex-shrink: 0;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+
+}
+
+.modalSaveButton {
+  background: linear-gradient(0deg, #2a4ecb, #2a4ecb),
+    linear-gradient(0deg, #d9d9d9, #d9d9d9);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 400;
+  color: whitesmoke;
+  width: 6rem;
+  height: 2rem;
+}
+
+.modalCancelButton {
+  background-color: var(--main);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 400;
+  color: car(--text_color);
+  width: 6rem;
+  height: 2rem;
+}
+
+.modalButtonTray {
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 1rem;
+  justify-content: flex-end;
+  align-items: center;
+  height: fit-content;
+  margin-top: 1rem;
+}
+
+.modalStoryPointsField {
+  width: 180px;
+  height: 29px;
+  flex-shrink: 0;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
 }

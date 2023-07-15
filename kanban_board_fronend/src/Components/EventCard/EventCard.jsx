@@ -20,19 +20,17 @@ const EventCard = (props) => {
 
   return (
     <React.Fragment>
-      <a href="google.com">
-        <div className="eventCard">
-          <div className="cardHeader">{props.title}</div>
-          <div className="cardContent"> {props.content} </div>
-          <div className="tray">
-            <div className="priorityTray">
-              <img className="arrow" src={imagePicker()} />
-              <div className="priority"> {priorityCheck()} </div>
-            </div>
-            <div className="storyPoints"> {props.storyPoints} </div>
+      <div className="eventCard" onClick={props.onClick}>
+        <div className="cardHeader">{props.title}</div>
+        <div className="cardContent"> {props.content} </div>
+        <div className="tray">
+          <div className="priorityTray">
+            <img className="arrow" src={imagePicker()} />
+            <div className="priority"> {priorityCheck()} </div>
           </div>
+          <div className="storyPoints"> {props.storyPoints} </div>
         </div>
-      </a>
+      </div>
     </React.Fragment>
   );
 };

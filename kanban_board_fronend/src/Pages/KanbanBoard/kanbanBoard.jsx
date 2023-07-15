@@ -2,12 +2,10 @@ import React from "react";
 
 import "./kanbanBoard.css";
 import StatusColumn from "../../Components/StatusColumn/StatusColumn";
-import EventUpdationModal from "../../Components/EventUpdationModal/EventUpdationModal";
 
 const KanbanBoard = () => {
   return (
     <>
-    <EventUpdationModal />
       <div className="kanbanBoardField">
         <div className="kanbanBoard">
           <header className="kanbanBoardTitle"> Kanban Board </header>
