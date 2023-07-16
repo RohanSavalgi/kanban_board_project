@@ -15,11 +15,11 @@
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
-  align-items: center;
+  align-items: space-between;
 
   background-color: var(--main);
   width: fit-content;
-  height: fit-content;
+  height: 55%;
   padding: 2rem;
   border-radius: 10px;
 }
@@ -29,8 +29,23 @@
 
   display: flex;
   flex-flow: column nowrap;
-  align-items: center;
+  align-items: space-between;
   justify-content: center;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  background-color: var(--main);
+  border-radius: 5px;
+  margin: 10px;
+
+  position: absolute;
+  left: 0;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--secondary);
+  border-radius: 5px;
 }
 
 .modalTitle {
@@ -40,12 +55,14 @@
   font-weight: 400;
   line-height: normal;
   width: 100%;
+  padding-left: 0.7rem;
 }
 
 .modalDescription {
   display: flex;
   flex-flow: column nowrap;
   width: 100%;
+  color: main(--text_color);
 }
 
 .modalDescriptionField {
@@ -55,15 +72,16 @@
   border-radius: 4px;
   border: 1px solid #d9d9d9;
   padding: 1rem;
-  color: #333;
+  color: var(--text_color);
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  background-color: var(--main);
 }
 
 .modalDescriptionText {
-  color: rgba(0, 0, 0, 0.5);
+  color: var(--text_color);
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -74,10 +92,18 @@
 
 .modalContent {
   display: flex;
-  flex-flow: row nowrap;
-  gap: 2rem;
-  /* margin-top: 0.5rem; */
+  flex-flow: column nowrap;
+  padding: 0.7rem;
+  overflow-y: scroll;
   width: 100%;
+  justify-content: flex-start;
+}
+
+.modalRows{
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 1rem;
+
 }
 
 .modalDropDown {
@@ -86,7 +112,8 @@
   flex-shrink: 0;
   border: 1px solid #d9d9d9;
   border-radius: 5px;
-
+  background-color: var(--main);
+  color: var(--text_color);
 }
 
 .modalSaveButton {
@@ -137,4 +164,48 @@
   flex-shrink: 0;
   border: 1px solid #d9d9d9;
   border-radius: 5px;
+  background-color: var(--main);
+}
+
+.modalDate{
+  display: flex;
+  flex-flow: row nowrap;
+  height: fit-content;
+  gap: 6rem;
+  align-items: center;
+}
+
+.modalSummary{
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.dateInput{
+  border: 1px solid #d9d9d9;
+  padding: 0.2rem 1rem;
+  color: var(--text_color);
+  background-color: var(--main);
+}
+
+.modalReporter{
+  width: 180px;
+  height: 29px;
+  flex-shrink: 0;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+  padding: 0.3rem 1rem;
+
+  background: repeating-linear-gradient(
+    45deg,
+    var(--main),
+    var(--main) 10px,
+    rgba(128, 128, 128, 0.132) 10px,
+    rgba(128, 128, 128, 0.132) 20px
+  );
+
+  color: var(--text_color);
+}
+
+.modalReporter:hover{
+  cursor:not-allowed;
 }

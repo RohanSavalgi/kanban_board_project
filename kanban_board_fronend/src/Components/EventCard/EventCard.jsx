@@ -6,32 +6,35 @@ import redArrow from "../../assets/redArrowDown.png";
 import "./EventCard.css";
 
 const EventCard = (props) => {
+
+  const eventData = {};
+
   const priorityCheck = () => {
-    if (props.priority == "1") return "Low";
+    if (props.priority == "3" || props.priority == "4") return "Low";
     else if (props.priority == "2") return "Medium";
     else return "High";
   };
 
   const imagePicker = () => {
-    if (props.priority == "1") return greenArrow;
+    if (props.priority == "3" || props.priority == "4") return greenArrow;
     else if (props.priority == "2") return blueArrow;
     else return redArrow;
   };
 
   return (
-    <React.Fragment>
-      <div className="eventCard" onClick={props.onClick}>
-        <div className="cardHeader">{props.title}</div>
-        <div className="cardContent"> {props.content} </div>
-        <div className="tray">
-          <div className="priorityTray">
-            <img className="arrow" src={imagePicker()} />
-            <div className="priority"> {priorityCheck()} </div>
+    <div id={props.cardId}>
+      <div className="eventCard" onClick={props.onClick} id={props.cardId}>
+        <div className="cardHeader"  id={props.cardId}>{props.title}</div>
+        <div className="cardContent"  id={props.cardId}> {props.content} </div>
+        <div className="tray"  id={props.cardId}>
+          <div className="priorityTray"  id={props.cardId}>
+            <img className="arrow" src={imagePicker()}  id={props.cardId} />
+            <div className="priority" id={props.cardId} > {priorityCheck()}  </div>
           </div>
-          <div className="storyPoints"> {props.storyPoints} </div>
+          <div className="storyPoints" id={props.cardId} > {props.storyPoints} </div>
         </div>
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 

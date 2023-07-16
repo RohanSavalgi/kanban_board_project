@@ -19,10 +19,21 @@ urlpatterns = [
     path("updateEvent/<str:input_event_id>/", updateEvent.as_view(), name = "updateEvent"),
     path("deleteEvent/<str:input_event_id>/", deleteEvent.as_view(), name = "deleteEvent"),
     path("getEventsByStatus/<str:input_status_id>/", getEventsByStatus.as_view(), name="getEventsByPriority"),
+    path("getEventById/<str:input_event_id>/", getEventById.as_view(), name="getEventById"),
     
     # Comments Paths
     path("getCommentsByEventId/<str:input_event_id>/", getCommentsByEventId.as_view(), name = "getCommentsByEventId"),
     path("createComment/", createComment.as_view(), name = "createComment"),
     path("updateComment/<str:input_comment_id>/", updateComment.as_view(), name = "updateComment"),
     path("deleteComment/<str:input_comment_id>/", deleteComment.as_view(), name = "deleteComment"),
+    
+    # Status Paths
+    path("getAllStatus/", getAllStatus.as_view(), name="getAllStatus"),
+    
+    # Priority Paths
+    path("getAllPriority/", getAllPriority.as_view(), name="getAllStatus"),
+    
+    # Users Path
+    path("getUserById/<str:input_user_id>/", getUserById.as_view(), name="getUserById"),
+    
 ]

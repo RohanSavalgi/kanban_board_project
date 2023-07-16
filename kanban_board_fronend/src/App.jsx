@@ -1,21 +1,21 @@
 import React from "react";
-import {RouterProvider, createBrowserRouter} from 'react-router-dom'
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import KanbanBoard from "./Pages/KanbanBoard/kanbanBoard";
+import EventUpdationModal from "./Components/EventUpdationModal/EventUpdationModal";
 
 const App = () => {
-
   const routes = createBrowserRouter([
     {
       path: "/",
-      element: <KanbanBoard />
-    }
-  ])
+      element: <KanbanBoard />,
+    },
+  ]);
 
-  return(
+  return (
     <React.Fragment>
       <RouterProvider router={routes} />
     </React.Fragment>
   );
-}
+};
 
 export default App;

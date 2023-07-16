@@ -139,6 +139,20 @@ class getAllEvents(View):
         serializedEvents = EventSerializer(allEventsList, many = True)
         return JsonResponse(serializedEvents.data, status = status.HTTP_200_OK, safe = False)
     
+class getEventById(View):
+    def get(self, request, input_event_id):
+        if not checkParameter(input_event_id):
+            return all_error_dictionary['invalid_id_error']
+        
+        oneKanbanBoard = Event.objects.filter(event_id = input_event_id)
+        #checking if it exists or not
+        if oneKanbanBoard.exists():
+            # Get Logic
+            serializedBoard = EventSerializer(oneKanbanBoard, many = True)
+            return JsonResponse(serializedBoard.data, status = status.HTTP_200_OK, safe = False)
+        else:
+            return all_error_dictionary['not_found_element']
+    
 class getEventByKanbanBoardId(View):
     def get(self, request, input_kanban_board_id):    
         # Checking if input kanban board id is valid or not
@@ -274,5 +288,31 @@ class deleteComment(View):
         toBeDeletedComment.delete()
         return JsonResponse("Deleted!", status = status.HTTP_200_OK, safe = False)
         
+class getAllStatus(View):
+    def get(self, request):
+        allStatus = Status.objects.all()
+        serializedStatus = StatusSerializer(allStatus, many = True)
+        return JsonResponse(serializedStatus.data, status = status.HTTP_200_OK, safe = False)
+    
+class getAllPriority(View):
+    def get(self, request):
+        allPriority = Priority.objects.all()
+        serializedPriority = PrioritySerializer(allPriority, many = True)
+        return JsonResponse(serializedPriority.data, status = status.HTTP_200_OK, safe = False)
+    
+class getUserById(View):
+    def get(self, request, input_user_id):
+        if not checkParameter(input_user_id):
+            return all_error_dictionary['invalid_id_error']
+        
+        eventExists = Users.objects.filter(user_id = input_user_id)
+        if not eventExists.exists():
+            return all_error_dictionary['not_found_element']
+        
+        userById = Users.objects.filter(event = input_user_id)
+        if not userById.exists():
+            return all_error_dictionary['no_elements_found']
             
+        serializeredUser = UserSerializer(userById, many = True)
+        return JsonResponse(serializeredUser.data, status = status.HTTP_200_OK, safe = False)    
 
