@@ -3,31 +3,47 @@
   position: fixed;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
 
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
+
+  animation: backgroundEmerge 0.2s ease-in-out forwards;
 }
 
-.crossButtonStyle{
+.errorMessage{
+  display: flex;
+  justify-content: center;
+
+  color: tomato;
+  padding: 1rem;
+  content: "";
+  font-weight: 600;
+  font-size: 1.2rem;
+
+  transition-property: all;
+  transition-duration: 0.5s;
+  transition-timing-function: ease-in-out;
+}
+
+.crossButtonStyle {
   width: 20px;
 }
 
-.firstRow{
+.firstRow {
   display: flex;
   justify-content: flex-end;
   height: fit-content;
 }
 
-.crossButton{
+.crossButton {
   width: fit-content;
   padding: 0;
-  background-color: var(--main); 
+  background-color: var(--main);
 }
 
-.modalDeleleteButton{
+.modalDeleleteButton {
   background-color: #e5534b;
   display: flex;
   border-radius: 3px;
@@ -38,7 +54,7 @@
   color: var(--text_color);
 }
 
-.outerBorder{
+.outerBorder {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -49,7 +65,7 @@
   width: 100%;
 }
 
-.outerBorder:hover{
+.outerBorder:hover {
   border: 3px dashed #e5534b;
 }
 
@@ -141,11 +157,10 @@
   justify-content: flex-start;
 }
 
-.modalRows{
+.modalRows {
   display: flex;
   flex-flow: row nowrap;
   gap: 1rem;
-
 }
 
 .modalDropDown {
@@ -211,7 +226,7 @@
   color: var(--text_color);
 }
 
-.modalDate{
+.modalDate {
   display: flex;
   flex-flow: row nowrap;
   height: fit-content;
@@ -219,19 +234,23 @@
   align-items: center;
 }
 
-.modalSummary{
+.modalSummary {
   display: flex;
   flex-flow: row nowrap;
 }
 
-.dateInput{
+.dateInput {
   border: 1px solid #d9d9d9;
   padding: 0.2rem 1rem;
   color: var(--text_color);
   background-color: var(--main);
 }
 
-.modalReporter{
+::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+.modalReporter {
   width: 180px;
   height: 29px;
   flex-shrink: 0;
@@ -250,11 +269,11 @@
   color: var(--text_color);
 }
 
-.modalReporter:hover{
-  cursor:not-allowed;
+.modalReporter:hover {
+  cursor: not-allowed;
 }
 
-.modalEventNameField{
+.modalEventNameField {
   background-color: var(--main);
   border: 1px solid #d9d9d9;
   height: 36px;
@@ -263,12 +282,42 @@
   border-radius: 5px;
 }
 
-.modalInputTitle{
+.modalInputTitle {
   color: var(--text_color);
   margin-bottom: 0.5rem;
 }
 
-.comments{
+.comments {
+  position: absolute;
+  right: 3.5rem;
   background-color: var(--main);
   color: var(--text_color);
+  width: 20rem;
+  height: 65%;
+
+  height: 64%;
+  border-radius: 10px;
+
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes backgroundEmerge {
+  0% {
+    background-color: transparent;
+  }
+  100% {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+}
+
+@keyframes modalEmerge {
+  0% {
+    background-color: transparent;
+  }
+  100% {
+    background-color: var(--main);
+  }
 }

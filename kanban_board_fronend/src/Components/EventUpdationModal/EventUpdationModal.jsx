@@ -22,6 +22,25 @@ const EventUpdationModal = (props) => {
     fetchData();
   }, []);
 
+  let allInput = {
+    description: "",
+    storyPoints: "",
+    startDate: "",
+    endDate: "",
+    summary: "",
+  };
+
+  const [formData, setFormData] = useState(false);
+
+  const checkForm = (data) => {
+    for (var key in data) {
+      if (data[key] == "") {
+        setFormData(true);
+        return false;
+      }
+    }
+  };
+
   const statusChangeHandler = (event) => {
     setSelectionForStatus(event.target.value);
   };
@@ -35,6 +54,23 @@ const EventUpdationModal = (props) => {
     const data = await fetch(url);
     const jsonData = await data.json();
     const postEventUrl = `http://127.0.0.1:8000/kanbanBoards/updateEvent/${jsonData[0].event_id}/`;
+
+    const formData = {
+      event_name: jsonData[0].event_name,
+      event_type: jsonData[0].event_type,
+      event_discription: event.target.description.value,
+      event_summary: event.target.summary.value,
+      event_start_date: event.target.startDate.value,
+      event_end_date: event.target.endDate.value,
+      reporter_user: 1,
+      priority: event.target.priority.value,
+      status: event.target.status.value,
+    };
+
+    if (checkForm(formData) == false) {
+      return null;
+    }
+
     const reponse = await fetch(postEventUrl, {
       method: "PUT",
       body: JSON.stringify({
@@ -54,13 +90,30 @@ const EventUpdationModal = (props) => {
       },
     });
     const result = await reponse.json();
-    console.log(result);
     window.location.reload(true);
     props.setFalse();
   };
 
   const onCreateHandler = async (event) => {
     event.preventDefault();
+
+    const data = {
+      event_name: event.target.eventName.value,
+      event_type: "User Story",
+      event_discription: event.target.description.value,
+      event_summary: event.target.summary.value,
+      event_start_date: event.target.startDate.value,
+      event_end_date: event.target.endDate.value,
+      kanban_board: props.kanbanBoardId,
+      reporter_user: 1,
+      priority: event.target.priority.value,
+      status: event.target.status.value,
+    };
+
+    if (checkForm(data) == false) {
+      return null;
+    }
+
     const reponse = await fetch(creatUrl, {
       method: "POST",
       body: JSON.stringify({
@@ -80,7 +133,6 @@ const EventUpdationModal = (props) => {
       },
     });
     const result = await reponse.json();
-    console.log(result);
     window.location.reload(true);
     props.setFalse();
   };
@@ -93,7 +145,6 @@ const EventUpdationModal = (props) => {
     if (props.eventId != 0) {
       const data = await fetch(url);
       const jsonData = await data.json();
-      console.log(jsonData);
       setEventData(jsonData[0]);
       setSelectionForStatus(jsonData[0].status);
       setSelectionForPriority(jsonData[0].priority);
@@ -108,12 +159,12 @@ const EventUpdationModal = (props) => {
     setPriorityData(priorityJsonData);
   };
 
-  const deleteData = async () => {
+  const deleteData = async (event) => {
+    event.preventDefault();
     const response = fetch(deleteUrl, {
       method: "DELETE",
     });
     const result = (await response).json();
-    console.log(result);
     window.location.reload(true);
     props.setFalse();
   };
@@ -270,6 +321,10 @@ const EventUpdationModal = (props) => {
                 </div>
               </form>
             </div>
+          </div>
+          <div className="errorMessage">
+            {" "}
+            {formData && "Some fields are left empty!"}{" "}
           </div>
         </div>
         {/* <div className="comments"> hello </div> */}
