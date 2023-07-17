@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
+import ReactDOM from "react-dom";
 
 import "./EventUpdationModal.css";
+import closeButton from "../../assets/closeButton.png";
 
 const EventUpdationModal = (props) => {
   const url = `http://127.0.0.1:8000/kanbanBoards/getEventById/${props.eventId}/`;
   const statusUrl = `http://127.0.0.1:8000/kanbanBoards/getAllStatus/`;
   const priorityUrl = `http://127.0.0.1:8000/kanbanBoards/getAllPriority/`;
+  const creatUrl = "http://127.0.0.1:8000/kanbanBoards/createEvent/";
 
   const [eventData, setEventData] = useState({});
   const [statusData, setStatusData] = useState([]);
@@ -40,8 +43,34 @@ const EventUpdationModal = (props) => {
         event_summary: event.target.summary.value,
         event_start_date: event.target.startDate.value,
         event_end_date: event.target.endDate.value,
-        kanban_board: jsonData[0].kanban_board,
-        reporter_user: jsonData[0].reporter_user,
+        kanban_board: props.kanbanBoardId,
+        reporter_user: 1,
+        priority: event.target.priority.value,
+        status: event.target.status.value,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const result = await reponse.json();
+    console.log(result);
+    window.location.reload(true);
+    props.setFalse();
+  };
+
+  const onCreateHandler = async (event) => {
+    event.preventDefault();
+    const reponse = await fetch(creatUrl, {
+      method: "POST",
+      body: JSON.stringify({
+        event_name: event.target.eventName.value,
+        event_type: "User Story",
+        event_discription: event.target.description.value,
+        event_summary: event.target.summary.value,
+        event_start_date: event.target.startDate.value,
+        event_end_date: event.target.endDate.value,
+        kanban_board: props.kanbanBoardId,
+        reporter_user: 1,
         priority: event.target.priority.value,
         status: event.target.status.value,
       }),
@@ -60,31 +89,56 @@ const EventUpdationModal = (props) => {
     const statusJsonData = await statusDataUrl.json();
     setStatusData(statusJsonData);
 
-    const data = await fetch(url);
-    const jsonData = await data.json();
-    console.log(jsonData);
-    setEventData(jsonData[0]);
-    setSelectionForStatus(jsonData[0].status);
-    setSelectionForPriority(jsonData[0].priority);
+    if (props.eventId != 0) {
+      const data = await fetch(url);
+      const jsonData = await data.json();
+      console.log(jsonData);
+      setEventData(jsonData[0]);
+      setSelectionForStatus(jsonData[0].status);
+      setSelectionForPriority(jsonData[0].priority);
 
-    const priorityDataUrl = await fetch(priorityUrl);
-    const priorityJsonData = await priorityDataUrl.json();
-    setPriorityData(priorityJsonData);
+      const priorityDataUrl = await fetch(priorityUrl);
+      const priorityJsonData = await priorityDataUrl.json();
+      setPriorityData(priorityJsonData);
 
-    const userUrl = `http://127.0.0.1:8000/kanbanBoards/getUserById/${jsonData[0].reporter_user}/`;
-    const user = await fetch(userUrl);
-    const jsonUserData = await user.json();
-    setUserData(jsonUserData[0]);
+      const userUrl = `http://127.0.0.1:8000/kanbanBoards/getUserById/${jsonData[0].reporter_user}/`;
+      const user = await fetch(userUrl);
+      const jsonUserData = await user.json();
+      setUserData(jsonUserData[0]);
+    }
   };
 
-  return (
+  let content = (
     <React.Fragment>
       <div className="modalBackground">
         <div className="modal">
           <div className="modalPlacableContent">
-            <div className="modalTitle"> {eventData.event_name} </div>
+            <div className="firstRow">
+              <button className="crossButton" onClick={props.setFalse}>
+                <img className="crossButtonStyle" src={closeButton} />
+              </button>
+            </div>
+            {props.eventId != 0 && (
+              <div className="modalTitle"> {eventData.event_name} </div>
+            )}
             <div className="modalContent">
-              <form onSubmit={onSubmitHandler}>
+              <form
+                onSubmit={
+                  (props.eventId != 0 && onSubmitHandler) ||
+                  (props.eventId == 0 && onCreateHandler)
+                }
+              >
+                {props.eventId == 0 && (
+                  <div className="modalStoryPoints">
+                    <div className="modalInputTitle">Title</div>
+                    <input
+                      type="text"
+                      name="eventName"
+                      className="modalEventNameField"
+                      defaultValue={eventData.event_name}
+                    />
+                  </div>
+                )}
                 <div className="modalRows">
                   <div className="modalDescription">
                     <div className="modalDescriptionText">Description</div>
@@ -198,6 +252,8 @@ const EventUpdationModal = (props) => {
       </div>
     </React.Fragment>
   );
+
+  return ReactDOM.createPortal(content, document.getElementById("modal_hook"));
 };
 
 export default EventUpdationModal;
