@@ -17,7 +17,12 @@ const KanbanBoard = () => {
   };
 
   const searchChanged = (event) => {
-    setSearchedText(event.target.value);
+    let lowerCase = event.target.value.toLowerCase();
+    setSearchedText(lowerCase);
+  }
+
+  const clearSearch = () => {
+    setSearchedText("");
   }
 
   return (
@@ -37,14 +42,15 @@ const KanbanBoard = () => {
             <button className="createButton" onClick={onClickHandler}>
               Create
             </button>
-            {/* <div className="searchBar">
-              <input type="text" className="searchStyle" placeholder="Search" onChange={searchChanged} />
-            </div>  */}
+            <div className="searchBar">
+              <input type="text" className="searchStyle" placeholder="Search" value={searchedText} onChange={searchChanged} />
+              {/* <button className="searchClear" onClick={clearSearch}>X</button> */}
+            </div> 
           </div>
           <div className="columns">
-            <StatusColumn searched={searchedText} title={"Not Started"} status={"1"} />
-            <StatusColumn searched={searchedText} title={"In Progress"} status={"2"} />
-            <StatusColumn searched={searchedText} title={"Completed"} status={"3"} />
+            <StatusColumn input={searchedText} title={"Not Started"} status={"1"} />
+            <StatusColumn input={searchedText} title={"In Progress"} status={"2"} />
+            <StatusColumn input={searchedText} title={"Completed"} status={"3"} />
           </div>
         </div>
       </div>

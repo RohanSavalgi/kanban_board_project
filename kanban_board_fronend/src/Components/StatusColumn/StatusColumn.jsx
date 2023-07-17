@@ -6,6 +6,12 @@ import EventCard from "../EventCard/EventCard";
 import EventUpdationModal from "../EventUpdationModal/EventUpdationModal";
 
 const StatusColumn = (props) => {
+  const countries = [
+    { name: "Belgium", continent: "Europe" },
+    { name: "India", continent: "Asia" },
+    { name: "Bolivia", continent: "South America" },
+  ];
+
   const url = `http://127.0.0.1:8000/kanbanBoards/getEventsByStatus/${props.status}/`;
 
   // state for the data
@@ -17,7 +23,7 @@ const StatusColumn = (props) => {
   // main useEffect
   useEffect(() => {
     fetchData();
-  }, [props.searched]);
+  }, []);
 
   const checkNoEvents = () => {
     if (noEvents == true) {
@@ -28,26 +34,9 @@ const StatusColumn = (props) => {
   const fetchData = async () => {
     const data = await fetch(url);
     const jsonData = await data.json();
-    let searchedJson = [];
-
-    jsonData.filter(function (i) {
-      if (i.event_name == props.searched) {
-        searchedJson.push(i);
-      }
-    });
-    
-    if (props.searched != "") {
-      if (searchedJson.length > 0) {
-        setEvents(searchedJson);
-        setNoEvents(false);
-        console.log("hit");
-      }
-    } 
-    else {
-      if (jsonData.length > 0) {
-        setEvents(jsonData);
-        setNoEvents(false);
-      }
+    setEvents(jsonData);
+    if (jsonData.length > 0) {
+      setNoEvents(false);
     }
   };
 
@@ -70,19 +59,32 @@ const StatusColumn = (props) => {
           {props.title} ({events.length})
         </div>
         <div className="columnField">
-          {checkNoEvents()}
-          {events.map((item) => (
-            <EventCard
-              key={item.event_id}
-              id={item.event_id}
-              cardId={item.event_id}
-              onClick={cardClick}
-              title={item.event_name}
-              content={item.event_discription}
-              priority={item.priority}
-              storyPoints={"3"}
-            />
-          ))}
+          <div className="noEvents">{checkNoEvents()}</div>
+          {events.length &&
+            events
+              .filter((post) => {
+                if (props.input === "") {
+                  return post;
+                } else if (
+                  post.event_name
+                    .toLowerCase()
+                    .includes(props.input.toLowerCase())
+                ) {
+                  return post;
+                }
+              })
+              .map((item) => (
+                <EventCard
+                  key={item.event_id}
+                  id={item.event_id}
+                  cardId={item.event_id}
+                  onClick={cardClick}
+                  title={item.event_name}
+                  content={item.event_discription}
+                  priority={item.priority}
+                  storyPoints={"3"}
+                />
+              ))}
         </div>
       </div>
     </React.Fragment>

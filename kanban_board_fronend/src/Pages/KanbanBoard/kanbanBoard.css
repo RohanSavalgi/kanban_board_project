@@ -9,6 +9,19 @@
   justify-content: center;
 }
 
+.noEvents{
+  color: var(--text_color);
+}
+
+.searchClear{
+  background-color: var(--main);
+  color: var(--text_color);
+  /* border: 1px solid grey; */
+  width: fit-content;
+  height: 2rem;
+  padding: 0.3rem;
+}
+
 .kanbanBoard {
   width: 85%;
   height: fit-content;
