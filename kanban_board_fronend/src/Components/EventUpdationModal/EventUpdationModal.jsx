@@ -9,6 +9,7 @@ const EventUpdationModal = (props) => {
   const statusUrl = `http://127.0.0.1:8000/kanbanBoards/getAllStatus/`;
   const priorityUrl = `http://127.0.0.1:8000/kanbanBoards/getAllPriority/`;
   const creatUrl = "http://127.0.0.1:8000/kanbanBoards/createEvent/";
+  const deleteUrl = `http://127.0.0.1:8000/kanbanBoards/deleteEvent/${props.eventId}/`;
 
   const [eventData, setEventData] = useState({});
   const [statusData, setStatusData] = useState([]);
@@ -97,15 +98,24 @@ const EventUpdationModal = (props) => {
       setSelectionForStatus(jsonData[0].status);
       setSelectionForPriority(jsonData[0].priority);
 
-      const priorityDataUrl = await fetch(priorityUrl);
-      const priorityJsonData = await priorityDataUrl.json();
-      setPriorityData(priorityJsonData);
-
       const userUrl = `http://127.0.0.1:8000/kanbanBoards/getUserById/${jsonData[0].reporter_user}/`;
       const user = await fetch(userUrl);
       const jsonUserData = await user.json();
       setUserData(jsonUserData[0]);
     }
+    const priorityDataUrl = await fetch(priorityUrl);
+    const priorityJsonData = await priorityDataUrl.json();
+    setPriorityData(priorityJsonData);
+  };
+
+  const deleteData = async () => {
+    const response = fetch(deleteUrl, {
+      method: "DELETE",
+    });
+    const result = (await response).json();
+    console.log(result);
+    window.location.reload(true);
+    props.setFalse();
   };
 
   let content = (
@@ -232,6 +242,19 @@ const EventUpdationModal = (props) => {
                       <div className="modalDescriptionText">Reporter</div>
                       <div className="modalReporter"> {userData.user_name}</div>
                     </div>
+                    {props.eventId != 0 && (
+                      <div className="modalStoryPoints">
+                        <div className="modalDescriptionText">Delete Event</div>
+                        <div className="outerBorder">
+                          <button
+                            className="modalDeleleteButton"
+                            onClick={deleteData}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="modalButtonTray">
@@ -249,6 +272,7 @@ const EventUpdationModal = (props) => {
             </div>
           </div>
         </div>
+        {/* <div className="comments"> hello </div> */}
       </div>
     </React.Fragment>
   );
