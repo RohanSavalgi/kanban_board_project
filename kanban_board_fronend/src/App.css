@@ -1,5 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
+.light_theme{
+  --main: #FFF;
+  --secondary: #eee;
+  --accent: #2a4ecb;
+  --text_color: #333;
+}
+
+.dark_theme{
+  --main: #333;
+  --secondary: #4e4e4e;
+  --accent: #2A4ECB;
+  --text_color: #e7e7e7;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;

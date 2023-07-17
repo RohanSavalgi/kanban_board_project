@@ -1,7 +1,8 @@
 .kanbanBoardField {
   background-color: var(--main);
   width: 100vw;
-  height: 100vh;
+  height: fit-content;
+  padding-bottom: 2rem;
 
   display: flex;
   flex-flow: row nowrap;
@@ -11,6 +12,28 @@
 .kanbanBoard {
   width: 85%;
   height: fit-content;
+}
+
+.searchAndCreate{
+  width: 70%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.searchBar{
+  margin-top: 3rem;
+}
+
+.searchStyle{
+  height: 2rem;
+  width: 15rem;
+  border: 1px solid grey;
+  border-radius: 10px;
+  background-color: var(--main);
+  color: var(--text_color);
 }
 
 .kanbanBoardTitle {

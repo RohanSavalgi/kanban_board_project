@@ -7,17 +7,17 @@ import EventUpdationModal from "../EventUpdationModal/EventUpdationModal";
 
 const StatusColumn = (props) => {
   const url = `http://127.0.0.1:8000/kanbanBoards/getEventsByStatus/${props.status}/`;
-  
+
   // state for the data
   const [events, setEvents] = useState([]);
   const [noEvents, setNoEvents] = useState(true);
   const [modalOpenOrClose, setModalOpenOrClose] = useState(false);
   const [passDataToModalId, setPassDataToModalId] = useState(0);
-  
+
   // main useEffect
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [props.searched]);
 
   const checkNoEvents = () => {
     if (noEvents == true) {
@@ -28,14 +28,31 @@ const StatusColumn = (props) => {
   const fetchData = async () => {
     const data = await fetch(url);
     const jsonData = await data.json();
-    if (jsonData.length > 0) {
-      setEvents(jsonData);
-      setNoEvents(false);
+    let searchedJson = [];
+
+    jsonData.filter(function (i) {
+      if (i.event_name == props.searched) {
+        searchedJson.push(i);
+      }
+    });
+    
+    if (props.searched != "") {
+      if (searchedJson.length > 0) {
+        setEvents(searchedJson);
+        setNoEvents(false);
+        console.log("hit");
+      }
+    } 
+    else {
+      if (jsonData.length > 0) {
+        setEvents(jsonData);
+        setNoEvents(false);
+      }
     }
   };
 
   const cardClick = (event) => {
-    setPassDataToModalId(event.target.id)
+    setPassDataToModalId(event.target.id);
     setModalOpenOrClose(true);
   };
 
@@ -45,7 +62,9 @@ const StatusColumn = (props) => {
 
   return (
     <React.Fragment>
-      {modalOpenOrClose ? <EventUpdationModal setFalse={modalClose} eventId={passDataToModalId} /> : null}
+      {modalOpenOrClose ? (
+        <EventUpdationModal setFalse={modalClose} eventId={passDataToModalId} />
+      ) : null}
       <div className="statusColumn">
         <div className="columnTitle">
           {props.title} ({events.length})
