@@ -61,7 +61,7 @@ class getAllKanbanBoards(View):
         serializedBoards = KanbanBoardSerializer(allKanbanBoards, many = True)
         return JsonResponse(serializedBoards.data, status = status.HTTP_200_OK, safe = False)
 
-class getKanbanBoardByUserId(View):
+class getKanbanBoardByUserId(View, GetData):
     def get(self, request, input_user_id):
         # checking if the input user is is valid or not
         if not checkParameter(input_user_id):
@@ -162,15 +162,15 @@ class EventData(View, PostData, GetData):
             return JsonResponse(serializedEvent.data, status = status.HTTP_200_OK, safe = False)
         else:
             return JsonResponse(serializedEvent.errors, status = status.HTTP_400_BAD_REQUEST, safe = False)
-    def get(self, request, input_status_id):
-        if not checkParameter(input_status_id):
+    def get(self, request, input_kanban_id):
+        if not checkParameter(input_kanban_id):
             return all_error_dictionary['invalid_id_error']
         
-        eventsExist = Event.objects.filter(status_id = input_status_id)
+        eventsExist = Event.objects.filter(kanban_board_id = input_kanban_id)
         if not eventsExist.exists():
             return all_error_dictionary['not_found_element']
         
-        eventsByPriorityId = Event.objects.filter(status_id = input_status_id)
+        eventsByPriorityId = Event.objects.filter(kanban_board_id = input_kanban_id)
         eventsByPriorityIdJson = EventSerializer(eventsByPriorityId, many = True)
         return JsonResponse(eventsByPriorityIdJson.data, status = status.HTTP_200_OK, safe = False)
     
@@ -294,7 +294,7 @@ class deleteComment(View):
         toBeDeletedComment.delete()
         return JsonResponse("Deleted!", status = status.HTTP_200_OK, safe = False)
         
-class getAllStatus(View):
+class getAllStatus(GetData ,View):
     def get(self, request):
         allStatus = Status.objects.all()
         serializedStatus = StatusSerializer(allStatus, many = True)

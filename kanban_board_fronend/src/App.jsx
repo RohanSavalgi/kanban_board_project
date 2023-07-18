@@ -8,7 +8,7 @@ import AllBoards from "./Pages/AllBoards/AllBoards";
 const App = () => {
   const routes = createBrowserRouter([
     {
-      path: "/",
+      path: "/board/:board_id",
       element: <KanbanBoard />,
     },
     {

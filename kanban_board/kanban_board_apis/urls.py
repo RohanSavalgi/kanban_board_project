@@ -12,14 +12,14 @@ urlpatterns = [
     path("board/<str:input_kanban_board_id>/", updateKanbanBoard.as_view(), name = 'updateKanbanBoard'),
     
     # GET KANBAN BY USER ID
-    path("board/<str:input_user_id>/", getKanbanBoardByUserId.as_view(), name = "getKanbanBoardByUserId"),
+    path("board/user/<str:input_user_id>/", getKanbanBoardByUserId.as_view(), name = "getKanbanBoardByUserId"),
     
     # Event Paths
     # CREATE EVENT
     path("event/", EventData.as_view(), name = "createEvent"),
     
     # GET EVENT BY ID
-    path("event/<str:input_status_id>/", EventData.as_view(), name="getEventsByPriority"),
+    path("event/<str:input_kanban_id>/", EventData.as_view(), name="getEventsByPriority"),
     
     # UPDATE EVENT 
     path("events/<str:input_event_id>/", EventById.as_view(), name = "updateEvent"),
@@ -37,7 +37,7 @@ urlpatterns = [
     path("deleteComment/<str:input_comment_id>/", deleteComment.as_view(), name = "deleteComment"),
     
     # Status Paths
-    path("getAllStatus/", getAllStatus.as_view(), name="getAllStatus"),
+    path("status/", getAllStatus.as_view(), name="getAllStatus"),
     
     # Priority Paths
     path("getAllPriority/", getAllPriority.as_view(), name="getAllStatus"),

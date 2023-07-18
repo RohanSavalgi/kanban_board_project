@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 
 import "./kanbanBoard.css";
 import StatusColumn from "../../Components/StatusColumn/StatusColumn";
 import EventUpdationModal from "../../Components/EventUpdationModal/EventUpdationModal";
 
 const KanbanBoard = () => {
+  const { board_id } = useParams();
+
   const [modalOpenOrClose, setModalOpenOrClose] = useState(false);
   const [searchedText, setSearchedText] = useState("");
 
@@ -48,9 +51,9 @@ const KanbanBoard = () => {
             </div> 
           </div>
           <div className="columns">
-            <StatusColumn input={searchedText} title={"Not Started"} status={"1"} />
-            <StatusColumn input={searchedText} title={"In Progress"} status={"2"} />
-            <StatusColumn input={searchedText} title={"Completed"} status={"3"} />
+            <StatusColumn status_from_top={1} input={searchedText} title={"Not Started"} kanbanId={board_id} />
+            <StatusColumn status_from_top={2} input={searchedText} title={"In Progress"} kanbanId={board_id} />
+            <StatusColumn status_from_top={3} input={searchedText} title={"Completed"} kanbanId={board_id} />
           </div>
         </div>
       </div>

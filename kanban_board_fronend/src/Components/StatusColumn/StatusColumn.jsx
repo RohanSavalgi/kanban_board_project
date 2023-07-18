@@ -6,7 +6,7 @@ import EventCard from "../EventCard/EventCard";
 import EventUpdationModal from "../EventUpdationModal/EventUpdationModal";
 
 const StatusColumn = (props) => {
-  const url = `http://127.0.0.1:8000/kanbanBoards/event/${props.status}/`;
+  const url = `http://127.0.0.1:8000/kanbanBoards/event/${props.kanbanId}/`;
 
   // state for the data
   const [events, setEvents] = useState([]);
@@ -57,7 +57,14 @@ const StatusColumn = (props) => {
           {events.length &&
             events
               .filter((post) => {
-                if (props.input === "") {
+                if(post.status == props.status_from_top)
+                {
+                  return post
+                }
+              })
+              .filter((post) => {
+                if (props.input === "") 
+                {
                   return post;
                 } else if (
                   post.event_name

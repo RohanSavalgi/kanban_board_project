@@ -6,7 +6,7 @@ import closeButton from "../../assets/closeButton.png";
 
 const EventUpdationModal = (props) => {
   const url = `http://127.0.0.1:8000/kanbanBoards/events/${props.eventId}/`;
-  const statusUrl = `http://127.0.0.1:8000/kanbanBoards/getAllStatus/`;
+  const statusUrl = `http://127.0.0.1:8000/kanbanBoards/status/`;
   const priorityUrl = `http://127.0.0.1:8000/kanbanBoards/getAllPriority/`;
   const creatUrl = "http://127.0.0.1:8000/kanbanBoards/event/";
   const deleteUrl = `http://127.0.0.1:8000/kanbanBoards/events/${props.eventId}/`;
@@ -150,7 +150,7 @@ const EventUpdationModal = (props) => {
       setSelectionForStatus(jsonData[0].status);
       setSelectionForPriority(jsonData[0].priority);
 
-      const userUrl = `http://127.0.0.1:8000/kanbanBoards/getUserById/${jsonData[0].reporter_user}/`;
+      const userUrl = `http://127.0.0.1:8000/kanbanBoards/user/${jsonData[0].reporter_user}/`;
       const user = await fetch(userUrl);
       const jsonUserData = await user.json();
       setUserData(jsonUserData[0]);
