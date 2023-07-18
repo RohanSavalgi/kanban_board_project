@@ -11,7 +11,7 @@
 
 .columnField{
     background-color: var(--secondary);
-    padding: 1rem;
+    padding: 0rem 0.4rem;
     display: flex;
     flex-flow: column nowrap;
     gap: 1rem;

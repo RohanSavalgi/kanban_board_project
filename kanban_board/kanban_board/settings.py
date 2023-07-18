@@ -63,6 +63,15 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOWED_ORIGIN_REGEXES = [
     'http://localhost:3030',
 ]
+CORS_ORIGIN_ALLOW_ALL = 'ALL'
+CORS_ALLOW_METHODS = (
+        'GET',
+        'POST',
+        'PUT',
+        'PATCH',
+        'DELETE',
+        'OPTIONS'
+    )
 
 ROOT_URLCONF = 'kanban_board.urls'
 

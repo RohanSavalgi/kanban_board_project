@@ -43,7 +43,7 @@ const KanbanBoard = () => {
               Create
             </button>
             <div className="searchBar">
-              <input type="text" className="searchStyle" placeholder="Search" value={searchedText} onChange={searchChanged} />
+              {/* <input type="text" className="searchStyle" placeholder="Search" value={searchedText} onChange={searchChanged} /> */}
               {/* <button className="searchClear" onClick={clearSearch}>X</button> */}
             </div> 
           </div>

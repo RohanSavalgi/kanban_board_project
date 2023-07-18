@@ -80,7 +80,7 @@
 }
 
 .columns {
-  width: 70%;
+  width: 65%;
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;

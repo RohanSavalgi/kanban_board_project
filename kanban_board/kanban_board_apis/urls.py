@@ -5,21 +5,28 @@ from .views import *
 
 urlpatterns = [
     # Kanban Board Paths
-    path("getAllKanbanBoard/", getAllKanbanBoards.as_view(), name = "getAllKanbanBoard"),
-    path("getKanbanBoardById/<str:kanban_board_id>/", getKanbanBoardById.as_view(), name = "getKanbanBoard"),
-    path("createKanbanBoard/<str:input_user_id>/", createKanbanBoard.as_view(), name = 'createKanbanBoard'),
-    path("deleteKanbanBoard/<str:input_kanban_board_id>/", deleteKanbanBoard.as_view(), name = 'deleteKanbanBoard'),
-    path("updateKanbanBoard/<str:input_kanban_board_id>/", updateKanbanBoard.as_view(), name = 'updateKanbanBoard'),
-    path("getKanbanBoardByUserId/<str:input_user_id>/", getKanbanBoardByUserId.as_view(), name = "getKanbanBoardByUserId"),
+    path("board", getAllKanbanBoards.as_view(), name = "getAllKanbanBoard"),
+    path("board/<str:kanban_board_id>/", getKanbanBoardById.as_view(), name = "getKanbanBoard"),
+    path("board/<str:input_user_id>/", createKanbanBoard.as_view(), name = 'createKanbanBoard'),
+    path("board/<str:input_kanban_board_id>/", deleteKanbanBoard.as_view(), name = 'deleteKanbanBoard'),
+    path("board/<str:input_kanban_board_id>/", updateKanbanBoard.as_view(), name = 'updateKanbanBoard'),
+    path("board/<str:input_user_id>/", getKanbanBoardByUserId.as_view(), name = "getKanbanBoardByUserId"),
     
     # Event Paths
-    path("getAllEvents/", getAllEvents.as_view(), name = "getAllEvents"),
-    path("getEventsByKanbanBoardId/<str:input_kanban_board_id>/", getEventByKanbanBoardId.as_view(), name = "getEventsByKanbanBoardId"),
-    path("createEvent/", createEvent.as_view(), name = "createEvent"),
-    path("updateEvent/<str:input_event_id>/", updateEvent.as_view(), name = "updateEvent"),
-    path("deleteEvent/<str:input_event_id>/", deleteEvent.as_view(), name = "deleteEvent"),
-    path("getEventsByStatus/<str:input_status_id>/", getEventsByStatus.as_view(), name="getEventsByPriority"),
-    path("getEventById/<str:input_event_id>/", getEventById.as_view(), name="getEventById"),
+    # CREATE EVENT
+    path("event/", EventData.as_view(), name = "createEvent"),
+    
+    # GET EVENT BY ID
+    path("event/<str:input_status_id>/", EventData.as_view(), name="getEventsByPriority"),
+    
+    # UPDATE EVENT 
+    path("events/<str:input_event_id>/", EventById.as_view(), name = "updateEvent"),
+    
+    # DELETE EVENT
+    path("events/<str:input_event_id>/", EventById.as_view(), name = "deleteEvent"),
+    
+    # GET EVENT BY STATUS ID
+    path("events/<str:input_event_id>/", EventById.as_view(), name="getEventById"),
     
     # Comments Paths
     path("getCommentsByEventId/<str:input_event_id>/", getCommentsByEventId.as_view(), name = "getCommentsByEventId"),

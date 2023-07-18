@@ -5,11 +5,11 @@ import "./EventUpdationModal.css";
 import closeButton from "../../assets/closeButton.png";
 
 const EventUpdationModal = (props) => {
-  const url = `http://127.0.0.1:8000/kanbanBoards/getEventById/${props.eventId}/`;
+  const url = `http://127.0.0.1:8000/kanbanBoards/events/${props.eventId}/`;
   const statusUrl = `http://127.0.0.1:8000/kanbanBoards/getAllStatus/`;
   const priorityUrl = `http://127.0.0.1:8000/kanbanBoards/getAllPriority/`;
-  const creatUrl = "http://127.0.0.1:8000/kanbanBoards/createEvent/";
-  const deleteUrl = `http://127.0.0.1:8000/kanbanBoards/deleteEvent/${props.eventId}/`;
+  const creatUrl = "http://127.0.0.1:8000/kanbanBoards/event/";
+  const deleteUrl = `http://127.0.0.1:8000/kanbanBoards/events/${props.eventId}/`;
 
   const [eventData, setEventData] = useState({});
   const [statusData, setStatusData] = useState([]);
@@ -53,8 +53,8 @@ const EventUpdationModal = (props) => {
     event.preventDefault();
     const data = await fetch(url);
     const jsonData = await data.json();
-    const postEventUrl = `http://127.0.0.1:8000/kanbanBoards/updateEvent/${jsonData[0].event_id}/`;
-
+    const postEventUrl = `http://127.0.0.1:8000/kanbanBoards/events/${jsonData[0].event_id}/`;
+    console.log(postEventUrl);
     const formData = {
       event_name: jsonData[0].event_name,
       event_type: jsonData[0].event_type,
@@ -165,6 +165,7 @@ const EventUpdationModal = (props) => {
       method: "DELETE",
     });
     const result = (await response).json();
+    console.log(result);
     window.location.reload(true);
     props.setFalse();
   };

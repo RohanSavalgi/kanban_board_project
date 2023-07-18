@@ -6,13 +6,7 @@ import EventCard from "../EventCard/EventCard";
 import EventUpdationModal from "../EventUpdationModal/EventUpdationModal";
 
 const StatusColumn = (props) => {
-  const countries = [
-    { name: "Belgium", continent: "Europe" },
-    { name: "India", continent: "Asia" },
-    { name: "Bolivia", continent: "South America" },
-  ];
-
-  const url = `http://127.0.0.1:8000/kanbanBoards/getEventsByStatus/${props.status}/`;
+  const url = `http://127.0.0.1:8000/kanbanBoards/event/${props.status}/`;
 
   // state for the data
   const [events, setEvents] = useState([]);

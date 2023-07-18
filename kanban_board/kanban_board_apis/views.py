@@ -1,3 +1,4 @@
+from abc import abstractmethod
 import json
 from django.http import JsonResponse
 from rest_framework import status
@@ -36,6 +37,22 @@ def checkParameter(parameter):
     except:
         return False
 # Global variables
+class GetData():
+    @abstractmethod
+    def get():
+        pass
+class PostData():
+    @abstractmethod
+    def post():
+        pass
+class PutData():
+    @abstractmethod
+    def put():
+        pass
+class DeleteData():
+    @abstractmethod
+    def delete():
+        pass
 
 # API KANBAN BOARD VIEWS
 class getAllKanbanBoards(View):
@@ -133,37 +150,7 @@ class updateKanbanBoard(View):
         return all_error_dictionary['could_not_update']
            
 # ALL EVENTS VIEWS
-class getAllEvents(View):
-    def get(self, request):
-        allEventsList = Event.objects.all()
-        serializedEvents = EventSerializer(allEventsList, many = True)
-        return JsonResponse(serializedEvents.data, status = status.HTTP_200_OK, safe = False)
-    
-class getEventById(View):
-    def get(self, request, input_event_id):
-        if not checkParameter(input_event_id):
-            return all_error_dictionary['invalid_id_error']
-        
-        oneKanbanBoard = Event.objects.filter(event_id = input_event_id)
-        #checking if it exists or not
-        if oneKanbanBoard.exists():
-            # Get Logic
-            serializedBoard = EventSerializer(oneKanbanBoard, many = True)
-            return JsonResponse(serializedBoard.data, status = status.HTTP_200_OK, safe = False)
-        else:
-            return all_error_dictionary['not_found_element']
-    
-class getEventByKanbanBoardId(View):
-    def get(self, request, input_kanban_board_id):    
-        # Checking if input kanban board id is valid or not
-        if not checkParameter(input_kanban_board_id):
-            return all_error_dictionary['invalid_id_error']
-        
-        eventsFromPerticularKanbanBoard = Event.objects.filter(kanban_board_id = input_kanban_board_id)
-        serializersEvents = EventSerializer(eventsFromPerticularKanbanBoard, many = True)
-        return JsonResponse(serializersEvents.data, status = status.HTTP_200_OK, safe = False)
-    
-class createEvent(View):
+class EventData(View, PostData, GetData):    
     def post(self, request):
         jsonConverted = json.loads(request.body)
         if not checkRequestData(jsonConverted):
@@ -175,8 +162,31 @@ class createEvent(View):
             return JsonResponse(serializedEvent.data, status = status.HTTP_200_OK, safe = False)
         else:
             return JsonResponse(serializedEvent.errors, status = status.HTTP_400_BAD_REQUEST, safe = False)
+    def get(self, request, input_status_id):
+        if not checkParameter(input_status_id):
+            return all_error_dictionary['invalid_id_error']
+        
+        eventsExist = Event.objects.filter(status_id = input_status_id)
+        if not eventsExist.exists():
+            return all_error_dictionary['not_found_element']
+        
+        eventsByPriorityId = Event.objects.filter(status_id = input_status_id)
+        eventsByPriorityIdJson = EventSerializer(eventsByPriorityId, many = True)
+        return JsonResponse(eventsByPriorityIdJson.data, status = status.HTTP_200_OK, safe = False)
     
-class updateEvent(View):
+class EventById(View, GetData, DeleteData, PutData):
+    def delete(self, request, input_event_id):
+        # Checking if the input event id is valid or not
+        if not checkParameter(input_event_id):
+            return all_error_dictionary['invalid_id_error']
+        
+        eventExist = Event.objects.filter(event_id = input_event_id)
+        if not eventExist.exists():
+            return all_error_dictionary['not_found_element']
+        
+        toBeDeletedEvent = Event.objects.get(event_id = input_event_id)
+        toBeDeletedEvent.delete()
+        return JsonResponse("Deleted!", status = status.HTTP_200_OK, safe = False)
     def put(self, request,input_event_id):
         if not checkParameter(input_event_id):
             return all_error_dictionary['invalid_id_error']
@@ -195,34 +205,30 @@ class updateEvent(View):
             serializedEvent.save()
             return JsonResponse(serializedEvent.data, status = status.HTTP_200_OK, safe = False)
         else:
-            return all_error_dictionary['could_not_update']
+            return JsonResponse(serializedEvent.errors, status = status.HTTP_204_NO_CONTENT, safe = False)
     
-class deleteEvent(View):
-    def delete(self, request, input_event_id):
-        # Checking if the input event id is valid or not
+    def get(self, request, input_event_id):
         if not checkParameter(input_event_id):
             return all_error_dictionary['invalid_id_error']
-        
-        eventExist = Event.objects.filter(event_id = input_event_id)
-        if not eventExist.exists():
+
+        oneKanbanBoard = Event.objects.filter(event_id = input_event_id)
+        #checking if it exists or not
+        if oneKanbanBoard.exists():
+            # Get Logic
+            serializedBoard = EventSerializer(oneKanbanBoard, many = True)
+            return JsonResponse(serializedBoard.data, status = status.HTTP_200_OK, safe = False)
+        else:
             return all_error_dictionary['not_found_element']
-        
-        toBeDeletedEvent = Event.objects.get(event_id = input_event_id)
-        toBeDeletedEvent.delete()
-        return JsonResponse("Deleted!", status = status.HTTP_200_OK, safe = False)
     
-class getEventsByStatus(View):
-    def get(self, request, input_status_id):
-        if not checkParameter(input_status_id):
+class getEventByKanbanBoardId(View):
+    def get(self, request, input_kanban_board_id):    
+        # Checking if input kanban board id is valid or not
+        if not checkParameter(input_kanban_board_id):
             return all_error_dictionary['invalid_id_error']
         
-        eventsExist = Event.objects.filter(status_id = input_status_id)
-        if not eventsExist.exists():
-            return all_error_dictionary['not_found_element']
-        
-        eventsByPriorityId = Event.objects.filter(status_id = input_status_id)
-        eventsByPriorityIdJson = EventSerializer(eventsByPriorityId, many = True)
-        return JsonResponse(eventsByPriorityIdJson.data, status = status.HTTP_200_OK, safe = False)
+        eventsFromPerticularKanbanBoard = Event.objects.filter(kanban_board_id = input_kanban_board_id)
+        serializersEvents = EventSerializer(eventsFromPerticularKanbanBoard, many = True)
+        return JsonResponse(serializersEvents.data, status = status.HTTP_200_OK, safe = False)
     
 # ALL COMMENTS VIEWS    
 class getCommentsByEventId(View):
