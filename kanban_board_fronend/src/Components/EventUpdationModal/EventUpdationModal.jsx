@@ -127,6 +127,7 @@ const EventUpdationModal = (props) => {
         reporter_user: 1,
         priority: event.target.priority.value,
         status: event.target.status.value,
+        story_point: event.target.storyPoints.value,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -256,6 +257,7 @@ const EventUpdationModal = (props) => {
                         type="text"
                         name="storyPoints"
                         className="modalStoryPointsField"
+                        value={eventData.story_point}
                       />
                     </div>
                   </div>

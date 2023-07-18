@@ -32,6 +32,7 @@ class Event(models.Model):
     reporter_user = models.ForeignKey('Users', models.DO_NOTHING, blank=True, null=True)
     priority = models.ForeignKey('Priority', models.DO_NOTHING, blank=True, null=True)
     status = models.ForeignKey('Status', models.DO_NOTHING, blank=True, null=True)
+    story_point = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False

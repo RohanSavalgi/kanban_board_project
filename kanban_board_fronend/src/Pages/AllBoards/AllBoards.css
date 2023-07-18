@@ -1,0 +1,38 @@
+.allBoardBackground{
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--main);
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.usernameTile{
+    font-size: 26px;
+    color: black;
+    padding-bottom: 3rem;
+}
+
+.board{
+    width: 16rem;
+    height: 8rem;
+    border: 1px solid black;
+}
+
+.allBoardField{
+    /* border: 1px solid black; */
+    width: 80%;
+    height: 60%;
+    
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-evenly;
+
+}
+
+.allBoardsView{
+    border: 1px solid black;
+    height: 20rem;
+    padding: 1rem;
+}

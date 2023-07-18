@@ -7,7 +7,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const checkLogin = () => {
-    navigate("/allBoards/3");
+    navigate("/allBoards/1");
   };
 
   return (
