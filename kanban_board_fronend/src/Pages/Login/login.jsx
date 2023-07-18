@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import "./login.css";
+import KanbanBoardImage from "../../assets/kanban.png";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -15,7 +16,8 @@ const Login = () => {
       <div className="loginBackground">
         <div className="loginCard">
           <div className="loginBorder">
-            <div className="loginHeader"> Login </div>
+            <img className="kanbanBoardImage" src={KanbanBoardImage} />
+            <div className="loginHeader"> Kanban Board </div>
             <form onSubmit={checkLogin}>
               <div className="loginInputFields">
                 <input

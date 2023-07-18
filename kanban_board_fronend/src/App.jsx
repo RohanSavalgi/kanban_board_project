@@ -16,7 +16,7 @@ const App = () => {
       element: <AllBoards />
     },
     {
-      path: "/login",
+      path: "/",
       element: <Login />
     }
   ]);

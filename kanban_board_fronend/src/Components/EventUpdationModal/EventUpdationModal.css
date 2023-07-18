@@ -247,7 +247,7 @@
 }
 
 ::-webkit-calendar-picker-indicator {
-  filter: invert(1);
+  color: var(--text_color);
 }
 
 .modalReporter {

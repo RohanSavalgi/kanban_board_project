@@ -22,14 +22,6 @@ const EventUpdationModal = (props) => {
     fetchData();
   }, []);
 
-  let allInput = {
-    description: "",
-    storyPoints: "",
-    startDate: "",
-    endDate: "",
-    summary: "",
-  };
-
   const [formData, setFormData] = useState(false);
 
   const checkForm = (data) => {
@@ -108,6 +100,7 @@ const EventUpdationModal = (props) => {
       reporter_user: 1,
       priority: event.target.priority.value,
       status: event.target.status.value,
+      story_point: event.target.storyPoints.value,
     };
 
     if (checkForm(data) == false) {

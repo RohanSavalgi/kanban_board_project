@@ -50,21 +50,36 @@ const StatusColumn = (props) => {
       ) : null}
       <div className="statusColumn">
         <div className="columnTitle">
-          {props.title} ({events.length})
+          {props.title} (
+          {events.length &&
+            events.filter((item) => {
+              if (item.status == props.status_from_top) return item;
+            }).length}
+          )
         </div>
         <div className="columnField">
+          <div className="sortingFields">
+            <select className="sortingOption leftRounded">
+              <option>Based on</option>
+              <option>Priority</option>
+              <option>Story Points</option>
+              <option>Start Date</option>
+              <option>End Date</option>
+            </select>
+            <select className="sortingOption rightRounded">
+              <option>Based on</option>
+            </select>
+          </div>
           <div className="noEvents">{checkNoEvents()}</div>
           {events.length &&
             events
               .filter((post) => {
-                if(post.status == props.status_from_top)
-                {
-                  return post
+                if (post.status == props.status_from_top) {
+                  return post;
                 }
               })
               .filter((post) => {
-                if (props.input === "") 
-                {
+                if (props.input === "") {
                   return post;
                 } else if (
                   post.event_name
@@ -73,6 +88,9 @@ const StatusColumn = (props) => {
                 ) {
                   return post;
                 }
+              })
+              .sort((postA, postB) => {
+                return postA.priority - postB.priority;
               })
               .map((item) => (
                 <EventCard

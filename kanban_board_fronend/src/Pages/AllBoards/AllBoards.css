@@ -11,7 +11,8 @@
 .usernameTile{
     font-size: 26px;
     color: black;
-    padding-bottom: 3rem;
+    padding-bottom: 2rem;
+    color: var(--text_color)
 }
 
 .board{
@@ -19,6 +20,8 @@
     height: 8rem;
     border-radius: 5px;
     border: 1px solid grey;
+    color: var(--text_color)
+
 }
 
 .allBoardField{
@@ -43,11 +46,29 @@
 
 .kanbanImage{
     height: 60%;
-    background-image: url("../../assets/natureImg4.png");
     background-position: center;
     background-size:cover;
+    border-radius: 5px 5px 0px 0px;
+
 }
 
 .boardInfo{
     padding: 0.4rem;
 }
+
+.boardCreate {
+    background: linear-gradient(0deg, #2a4ecb, #2a4ecb),
+      linear-gradient(0deg, #d9d9d9, #d9d9d9);
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 3rem;
+  
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 400;
+    color: whitesmoke;
+    width: 6rem;
+    height: 2rem;
+  }

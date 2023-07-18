@@ -10,9 +10,14 @@
     align-items: center;
 }
 
+.kanbanBoardImage{
+    width: 100px;
+}
+
 .loginCard{
-    width: 30%;
-    height: 70%;
+    width: fit-content;
+    height: fit-content;
+    padding: 2rem 3rem;
     background-color: var(--main);
 
     display: flex;
@@ -22,7 +27,7 @@
 }
 
 .loginBorder{
-    border: 1px solid grey;
+    border: 5px solid grey;
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
@@ -32,12 +37,14 @@
 }
 
 .loginButton{
-    background-color: blue;
+    background: linear-gradient(0deg, #2a4ecb, #2a4ecb),
+    linear-gradient(0deg, #d9d9d9, #d9d9d9);
     width: 14rem;
     height: 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    color: var(--main);
 }
 
 .loginHeader{

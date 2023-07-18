@@ -9,12 +9,36 @@
     color: var(--text_color);
 }
 
+.sortingFields{
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.sortingOption{
+    width:50%;
+    height: 32px;
+    flex-shrink: 0;
+    border: 1px solid #d9d9d9;
+    background-color: var(--main);
+    color: var(--text_color);
+    margin-top: 0.7rem;
+  }
+
+  .leftRounded{
+    border-radius: 5px 0px 0px 5px;
+  }
+
+  
+  .rightRounded{
+    border-radius: 0px 5px 5px 0px;
+  }
+
 .columnField{
     background-color: var(--secondary);
     padding: 0rem 0.4rem;
     display: flex;
     flex-flow: column nowrap;
-    gap: 1rem;
+    gap: 0.8rem;
     min-height: 30rem;
 }
 

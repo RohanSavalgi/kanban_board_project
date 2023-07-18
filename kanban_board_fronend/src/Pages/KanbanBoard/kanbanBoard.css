@@ -16,7 +16,6 @@
 .searchClear{
   background-color: var(--main);
   color: var(--text_color);
-  /* border: 1px solid grey; */
   width: fit-content;
   height: 2rem;
   padding: 0.3rem;
@@ -28,7 +27,7 @@
 }
 
 .searchAndCreate{
-  width: 70%;
+  width: 55%;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
@@ -80,7 +79,7 @@
 }
 
 .columns {
-  width: 65%;
+  width: 55%;
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
