@@ -41,7 +41,9 @@ urlpatterns = [
     path("user/<str:input_user_id>/", getUserById.as_view(), name="getUserById"), 
     
     # Auth Path
-    path("auth/", login.as_view(), name="login function"),
+    path("login/", login.as_view(), name="login function"),
+    
+    path("register/", register.as_view(), name="registerANewUser"),
     
     # Comments Paths
     path("getCommentsByEventId/<str:input_event_id>/", getCommentsByEventId.as_view(), name = "getCommentsByEventId"),

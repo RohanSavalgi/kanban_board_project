@@ -310,11 +310,28 @@ class login(PostData, View):
     def post(self, request):
         # print(request.json());
         requestConvertedToJson = json.loads(request.body)
+        getUsername = Users.objects.filter(user_email = requestConvertedToJson['user_email'])
+        if not getUsername.exists():
+            return JsonResponse("Failed", status = status.HTTP_403_FORBIDDEN, safe = False) 
         getUser = Users.objects.get(user_email = requestConvertedToJson['user_email'])
         serializedUser = UserSerializer(getUser);
         if serializedUser.data['user_password'] == requestConvertedToJson['user_password']:
                 return JsonResponse(serializedUser.data, status = status.HTTP_200_OK, safe = False)
         return JsonResponse("Failed", status = status.HTTP_403_FORBIDDEN, safe = False) 
+    
+class register(PostData, View):
+    def post(self, request):
+        userData = json.loads(request.body)
+        if not checkRequestData(userData):
+            return all_error_dictionary['request_data_invalid']
+                
+        serializedUserData = UserSerializer(data = userData)
+        if serializedUserData.is_valid():
+            serializedUserData.save()
+            return JsonResponse("Registered", status = status.HTTP_200_OK, safe = False);
+        else:
+            return JsonResponse(serializedUserData.errors, status = status.HTTP_400_BAD_REQUEST, safe = False)
+        
     
 class getUserById(View):
     def get(self, request, input_user_id):
@@ -325,7 +342,7 @@ class getUserById(View):
         if not eventExists.exists():
             return all_error_dictionary['not_found_element']
         
-        userById = Users.objects.filter(event = input_user_id)
+        userById = Users.objects.filter(user_id = input_user_id)
         if not userById.exists():
             return all_error_dictionary['no_elements_found']
             

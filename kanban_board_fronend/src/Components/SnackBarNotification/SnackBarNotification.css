@@ -1,0 +1,56 @@
+.notificationPlacement{
+    width: 20rem;
+    height: 9rem;
+    background-color: var(--main);
+    
+    position: fixed;
+    top:5rem;
+    right: 0;
+    z-index: 10;
+    
+    border-radius: 5px 0px 0px 5px;
+    
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    
+    animation: disapper 1s ease-in-out forwards;
+} 
+
+.notificationBorder{
+    width: 80%;
+    height: 80%;
+    border-radius: 10px;
+    border: 1px solid grey;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.notificationMessage{
+    padding: 1rem;
+    font-weight: 600;
+}
+
+.green{
+    background-color: lightgreen;
+}
+
+.blue{
+    background-color: lightblue;
+}
+
+.red{
+    background-color: tomato;
+}
+
+@keyframes disapper {
+    0%{
+        transform: translateX(0);
+    }
+    100%{
+        transform: translateX(40rem);
+    }
+}

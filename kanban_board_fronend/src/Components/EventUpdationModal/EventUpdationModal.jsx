@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 
 import "./EventUpdationModal.css";
 import closeButton from "../../assets/closeButton.png";
+import SnackBarNotification from "../SnackBarNotification/SnackBarNotification";
 
 const EventUpdationModal = (props) => {
   const url = `http://127.0.0.1:8000/kanbanBoards/events/${props.eventId}/`;
@@ -166,6 +167,7 @@ const EventUpdationModal = (props) => {
 
   let content = (
     <React.Fragment>
+      <SnackBarNotification />
       <div className="modalBackground" onClick={props.setFalse}>
         <div className="modal">
           <div className="modalPlacableContent">

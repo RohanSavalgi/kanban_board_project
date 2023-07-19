@@ -10,6 +10,19 @@
     align-items: center;
 }
 
+.registerButton{
+    padding: 0; 
+    background-color: var(--main);
+    border: 0;
+    color: rgb(68, 68, 198);
+}
+
+.wrongError{
+    text-align: center;
+    color: red;
+    padding: 1rem;
+}
+
 .kanbanBoardImage{
     width: 100px;
 }
@@ -45,6 +58,7 @@
     justify-content: center;
     align-items: center;
     color: var(--main);
+    margin-top: 1rem;
 }
 
 .loginHeader{
