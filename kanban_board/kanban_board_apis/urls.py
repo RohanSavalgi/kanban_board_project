@@ -40,7 +40,8 @@ urlpatterns = [
     # Users Path
     path("user/<str:input_user_id>/", getUserById.as_view(), name="getUserById"), 
     
-    
+    # Auth Path
+    path("auth/", login.as_view(), name="login function"),
     
     # Comments Paths
     path("getCommentsByEventId/<str:input_event_id>/", getCommentsByEventId.as_view(), name = "getCommentsByEventId"),

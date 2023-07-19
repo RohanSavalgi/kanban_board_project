@@ -306,6 +306,16 @@ class getAllPriority(GetData ,View):
         serializedPriority = PrioritySerializer(allPriority, many = True)
         return JsonResponse(serializedPriority.data, status = status.HTTP_200_OK, safe = False)
     
+class login(PostData, View):
+    def post(self, request):
+        # print(request.json());
+        requestConvertedToJson = json.loads(request.body)
+        getUser = Users.objects.get(user_email = requestConvertedToJson['user_email'])
+        serializedUser = UserSerializer(getUser);
+        if serializedUser.data['user_password'] == requestConvertedToJson['user_password']:
+                return JsonResponse(serializedUser.data, status = status.HTTP_200_OK, safe = False)
+        return JsonResponse("Failed", status = status.HTTP_403_FORBIDDEN, safe = False) 
+    
 class getUserById(View):
     def get(self, request, input_user_id):
         if not checkParameter(input_user_id):
