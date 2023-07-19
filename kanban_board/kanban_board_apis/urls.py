@@ -5,7 +5,7 @@ from .views import *
 
 urlpatterns = [
     # Kanban Board Paths
-    path("board", getAllKanbanBoards.as_view(), name = "getAllKanbanBoard"),
+    # path("board", getAllKanbanBoards.as_view(), name = "getAllKanbanBoard"),
     path("board/<str:kanban_board_id>/", getKanbanBoardById.as_view(), name = "getKanbanBoard"),
     path("board/<str:input_user_id>/", createKanbanBoard.as_view(), name = 'createKanbanBoard'),
     path("board/<str:input_kanban_board_id>/", deleteKanbanBoard.as_view(), name = 'deleteKanbanBoard'),
@@ -30,18 +30,21 @@ urlpatterns = [
     # GET EVENT BY STATUS ID
     path("events/<str:input_event_id>/", EventById.as_view(), name="getEventById"),
     
-    # Comments Paths
-    path("getCommentsByEventId/<str:input_event_id>/", getCommentsByEventId.as_view(), name = "getCommentsByEventId"),
-    path("createComment/", createComment.as_view(), name = "createComment"),
-    path("updateComment/<str:input_comment_id>/", updateComment.as_view(), name = "updateComment"),
-    path("deleteComment/<str:input_comment_id>/", deleteComment.as_view(), name = "deleteComment"),
     
     # Status Paths
     path("status/", getAllStatus.as_view(), name="getAllStatus"),
     
     # Priority Paths
-    path("getAllPriority/", getAllPriority.as_view(), name="getAllStatus"),
+    path("priority/", getAllPriority.as_view(), name="getAllStatus"),
     
     # Users Path
     path("user/<str:input_user_id>/", getUserById.as_view(), name="getUserById"), 
+    
+    
+    
+    # Comments Paths
+    path("getCommentsByEventId/<str:input_event_id>/", getCommentsByEventId.as_view(), name = "getCommentsByEventId"),
+    path("createComment/", createComment.as_view(), name = "createComment"),
+    path("updateComment/<str:input_comment_id>/", updateComment.as_view(), name = "updateComment"),
+    path("deleteComment/<str:input_comment_id>/", deleteComment.as_view(), name = "deleteComment"),
 ]

@@ -7,7 +7,7 @@ import closeButton from "../../assets/closeButton.png";
 const EventUpdationModal = (props) => {
   const url = `http://127.0.0.1:8000/kanbanBoards/events/${props.eventId}/`;
   const statusUrl = `http://127.0.0.1:8000/kanbanBoards/status/`;
-  const priorityUrl = `http://127.0.0.1:8000/kanbanBoards/getAllPriority/`;
+  const priorityUrl = `http://127.0.0.1:8000/kanbanBoards/priority/`;
   const creatUrl = "http://127.0.0.1:8000/kanbanBoards/event/";
   const deleteUrl = `http://127.0.0.1:8000/kanbanBoards/events/${props.eventId}/`;
 
@@ -166,7 +166,7 @@ const EventUpdationModal = (props) => {
 
   let content = (
     <React.Fragment>
-      <div className="modalBackground">
+      <div className="modalBackground" onClick={props.setFalse}>
         <div className="modal">
           <div className="modalPlacableContent">
             <div className="firstRow">
@@ -177,6 +177,11 @@ const EventUpdationModal = (props) => {
             {props.eventId != 0 && (
               <div className="modalTitle"> {eventData.event_name} </div>
             )}
+            {
+              props.eventId == 0 && (
+                <div className="modalTitle"> Create new event </div> 
+              )
+            }
             <div className="modalContent">
               <form
                 onSubmit={

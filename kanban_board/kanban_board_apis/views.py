@@ -55,11 +55,11 @@ class DeleteData():
         pass
 
 # API KANBAN BOARD VIEWS
-class getAllKanbanBoards(View):
-    def get(self, request):
-        allKanbanBoards = KanbanBoard.objects.all()
-        serializedBoards = KanbanBoardSerializer(allKanbanBoards, many = True)
-        return JsonResponse(serializedBoards.data, status = status.HTTP_200_OK, safe = False)
+# class getAllKanbanBoards(View):
+#     def get(self, request):
+#         allKanbanBoards = KanbanBoard.objects.all()
+#         serializedBoards = KanbanBoardSerializer(allKanbanBoards, many = True)
+#         return JsonResponse(serializedBoards.data, status = status.HTTP_200_OK, safe = False)
 
 class getKanbanBoardByUserId(View, GetData):
     def get(self, request, input_user_id):
@@ -300,7 +300,7 @@ class getAllStatus(GetData ,View):
         serializedStatus = StatusSerializer(allStatus, many = True)
         return JsonResponse(serializedStatus.data, status = status.HTTP_200_OK, safe = False)
     
-class getAllPriority(View):
+class getAllPriority(GetData ,View):
     def get(self, request):
         allPriority = Priority.objects.all()
         serializedPriority = PrioritySerializer(allPriority, many = True)

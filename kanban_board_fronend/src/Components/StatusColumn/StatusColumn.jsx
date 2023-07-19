@@ -60,14 +60,46 @@ const StatusColumn = (props) => {
         <div className="columnField">
           <div className="sortingFields">
             <select className="sortingOption leftRounded">
-              <option>Based on</option>
-              <option>Priority</option>
-              <option>Story Points</option>
-              <option>Start Date</option>
-              <option>End Date</option>
+              <option
+                key={1}
+                value={2}
+                name={3}
+              >
+                Based on
+              </option>
+              <option
+                key={1}
+                value={2}
+                name={3}
+              >
+                Start Date
+              </option>
+              <option
+                key={1}
+                value={2}
+                name={3}
+              >
+                End Date
+              </option>
+              <option
+                key={1}
+                value={2}
+                name={3}
+              >
+                Priority
+              </option>
+              <option
+                key={1}
+                value={2}
+                name={3}
+              >
+                Story Points
+              </option>
             </select>
             <select className="sortingOption rightRounded">
               <option>Based on</option>
+              <option>Ascending</option>
+              <option>Descending</option>
             </select>
           </div>
           <div className="noEvents">{checkNoEvents()}</div>
