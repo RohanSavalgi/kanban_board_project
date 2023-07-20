@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import crypto from "crypto-js";
 import { useNavigate } from "react-router-dom";
-
 import "./login.css";
 import KanbanBoardImage from "../../assets/kanban.png";
 
@@ -15,7 +14,6 @@ const Login = () => {
   const navigate = useNavigate();
 
   const checkLogin = async (event) => {
-    event.preventDefault();
     event.preventDefault();
     const jsonObj = {
       user_email: event.target.loginEmail.value,
@@ -127,8 +125,8 @@ const Login = () => {
               <button
                 className="registerButton"
                 onClick={() => {
-                  setWrongPass(false)
-                  (!register && setRegister(true)) || (register && setRegister(false))
+                  setWrongPass(false)(!register && setRegister(true)) ||
+                    (register && setRegister(false));
                 }}
               >
                 {!register && "Register"}

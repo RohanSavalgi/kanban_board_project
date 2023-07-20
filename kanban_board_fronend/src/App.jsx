@@ -21,9 +21,6 @@ const App = () => {
     }
   ]);
 
-  const mainHtml = document.getElementById("body");
-  mainHtml.classList.add("dark_theme");
-
   return (
     <React.Fragment>
       <RouterProvider router={routes} />

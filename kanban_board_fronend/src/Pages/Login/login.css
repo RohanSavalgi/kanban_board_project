@@ -32,7 +32,7 @@
     height: fit-content;
     padding: 2rem 3rem;
     background-color: var(--main);
-
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
@@ -59,6 +59,7 @@
     align-items: center;
     color: var(--main);
     margin-top: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
 .loginHeader{
@@ -73,6 +74,8 @@
     border: 1px solid grey;
     width: 14rem;
     height: 2rem;
+    box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+
 }
 
 .loginInputFields{

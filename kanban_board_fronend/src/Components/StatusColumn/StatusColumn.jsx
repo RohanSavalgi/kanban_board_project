@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import "./StatusColumn.css";
 import EventCard from "../EventCard/EventCard";
 import EventUpdationModal from "../EventUpdationModal/EventUpdationModal";
+import SnackBarNotification from "../SnackBarNotification/SnackBarNotification";
 
 const StatusColumn = (props) => {
   const url = `http://127.0.0.1:8000/kanbanBoards/event/${props.kanbanId}/`;
@@ -13,11 +14,43 @@ const StatusColumn = (props) => {
   const [noEvents, setNoEvents] = useState(true);
   const [modalOpenOrClose, setModalOpenOrClose] = useState(false);
   const [passDataToModalId, setPassDataToModalId] = useState(0);
+  const [updateData, setUpdateData] = useState(1);
+  const [updated, setUpdated] = useState(false);
+  const [created, setCreated] = useState(false);
+  const [createModalOpenOrClose, setCreateModalOpenOrClose] = useState(false);
+  const [filterNumber, setFilterNumber] = useState(1);
+  const [order, setOrder] = useState("b");
+
+  const filterChanger = (event) => {
+    setFilterNumber(event.target.value);
+  };
+
+  const orderChangeHandler = (event) => {
+    setOrder(event.target.value);
+  };
+
+  const setUpdatedHandler = () => {
+    setUpdated(true);
+    setTimeout(() => {
+      setUpdated(false);
+    }, 6000);
+  };
+
+  const setCreatedHandler = () => {
+    setCreated(true);
+    setTimeout(() => {
+      setCreated(false);
+    }, 6000);
+  };
 
   // main useEffect
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [updated]);
+
+  const updateDataHandler = () => {
+    setUpdateData(updateData + 1);
+  };
 
   const checkNoEvents = () => {
     if (noEvents == true) {
@@ -40,13 +73,25 @@ const StatusColumn = (props) => {
   };
 
   const modalClose = () => {
+    setPassDataToModalId(0);
     setModalOpenOrClose(false);
   };
 
   return (
     <React.Fragment>
+      {updated && (
+        <SnackBarNotification message="Updated Event!" color="blue" />
+      )}
+      {created && (
+        <SnackBarNotification message="Event Created!" color="green" />
+      )}
       {modalOpenOrClose ? (
-        <EventUpdationModal setFalse={modalClose} eventId={passDataToModalId} />
+        <EventUpdationModal
+          updateDataColumns={updateDataHandler}
+          setFalse={modalClose}
+          eventId={passDataToModalId}
+          setUpdateProps={setUpdatedHandler}
+        />
       ) : null}
       <div className="statusColumn">
         <div className="columnTitle">
@@ -59,15 +104,39 @@ const StatusColumn = (props) => {
         </div>
         <div className="columnField">
           <div className="sortingFields">
-            <select className="sortingOption leftRounded">
-              <option>
+            <select
+              className="sortingOption leftRounded"
+              onChange={filterChanger}
+            >
+              <option key={"1"} value={"1"} name="select">
+                Select
+              </option>
+              <option key={"2"} value={"2"} name="status">
                 Story Points
               </option>
+              <option key={"3"} value={"3"} name="startDate">
+                Start Date
+              </option>
+              <option key={"4"} value={"4"} name="endDate">
+                End Date
+              </option>
+              <option key={"5"} value={"5"} name="priority">
+                Priority
+              </option>
             </select>
-            <select className="sortingOption rightRounded">
-              <option>Based on</option>
-              <option>Ascending</option>
-              <option>Descending</option>
+            <select
+              className="sortingOption rightRounded"
+              onChange={orderChangeHandler}
+            >
+              <option key={"b"} value={"b"} name={"b"}>
+                Based on
+              </option>
+              <option key={"a"} value={"a"} name={"a"}>
+                Ascending
+              </option>
+              <option key={"d"} value={"d"} name={"d"}>
+                Descending
+              </option>
             </select>
           </div>
           <div className="noEvents">{checkNoEvents()}</div>
@@ -92,6 +161,46 @@ const StatusColumn = (props) => {
               .sort((postA, postB) => {
                 return postA.priority - postB.priority;
               })
+              .sort((postA, postB) => {
+                if (filterNumber == 2) {
+                  if (order == "a") {
+                    return postA.story_point - postB.story_point;
+                  } else if (order == "d")
+                    return postB.story_point - postA.story_point;
+                }
+                if (filterNumber == 3) {
+                  const array1 = postA.event_start_date.split("-");
+                  const array2 = postB.event_start_date.split("-");
+                  let stringDate1 = "";
+                  let stringDate2 = "";
+                  stringDate1 = array1.join("");
+                  stringDate2 = array2.join("");
+                  const postADateNum = Number(stringDate1);
+                  const postBDateNum = Number(stringDate2);
+                  if (order == "a") {
+                    return postADateNum - postBDateNum;
+                  } else if (order == "d") return postBDateNum - postADateNum;
+                }
+                if (filterNumber == 4) {
+                  const array1 = postA.event_end_date.split("-");
+                  const array2 = postB.event_end_date.split("-");
+                  let stringDate1 = "";
+                  let stringDate2 = "";
+                  stringDate1 = array1.join("");
+                  stringDate2 = array2.join("");
+                  const postADateNum = Number(stringDate1);
+                  const postBDateNum = Number(stringDate2);
+                  if (order == "a") {
+                    return postADateNum - postBDateNum;
+                  } else if (order == "d") return postBDateNum - postADateNum;
+                }
+                if (filterNumber == 5) {
+                  if (order == "a") {
+                    return postB.priority - postA.priority;
+                  } else if (order == "d")
+                    return postA.priority - postB.priority;
+                }
+              })
               .map((item) => (
                 <EventCard
                   key={item.event_id}
@@ -101,7 +210,7 @@ const StatusColumn = (props) => {
                   title={item.event_name}
                   content={item.event_discription}
                   priority={item.priority}
-                  storyPoints={"3"}
+                  storyPoints={item.story_point || 0}
                 />
               ))}
         </div>

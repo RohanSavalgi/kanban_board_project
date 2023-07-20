@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import SnackBarNotification from "../../Components/SnackBarNotification/SnackBarNotification";
 import scenaryImage1 from "../../assets/natureImg1.png";
 import scenaryImage2 from "../../assets/natureImg2.png";
 import scenaryImage3 from "../../assets/natureImg3.png";
@@ -16,12 +17,15 @@ const AllBoards = () => {
   const navigate = useNavigate();
   const { user_id } = useParams();
 
+  const [allBoards, setAllBoards] = useState([]);
+  const [userData, setUserData] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
+
   useEffect(() => {
+    setLoggedIn(true);
     getData();
   }, []);
 
-  const [allBoards, setAllBoards] = useState([]);
-  const [userData, setUserData] = useState("");
 
   const getBoardsUrl = `http://127.0.0.1:8000/kanbanBoards/board/user/${user_id}/`;
   const getUserUrl = `http://127.0.0.1:8000/kanbanBoards/user/${user_id}/`;
@@ -59,6 +63,7 @@ const AllBoards = () => {
 
   return (
     <React.Fragment>
+      {loggedIn  && <SnackBarNotification color="green" message="Logged-in successfully" />}
       <div className="allBoardBackground">
         <div className="allBoardField">
           <div className="usernameTile">Welcome, {userData}</div>
