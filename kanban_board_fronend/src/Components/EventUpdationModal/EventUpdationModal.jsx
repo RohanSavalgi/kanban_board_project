@@ -149,54 +149,6 @@ const EventUpdationModal = (props) => {
     }
   };
 
-  const onCreateHandler = async (event) => {
-    event.preventDefault();
-
-    const data = {
-      event_name: event.target.eventName.value,
-      event_type: "User Story",
-      event_discription: event.target.description.value,
-      event_summary: event.target.summary.value,
-      event_start_date: event.target.startDate.value,
-      event_end_date: event.target.endDate.value,
-      kanban_board: props.kanbanBoardId,
-      reporter_user: 1,
-      priority: event.target.priority.value,
-      status: event.target.status.value,
-      story_point: event.target.storyPoints.value,
-    };
-
-    if (checkForm(data) == false) {
-      return null;
-    }
-
-    const reponse = await fetch(creatUrl, {
-      method: "POST",
-      body: JSON.stringify({
-        event_name: event.target.eventName.value,
-        event_type: "User Story",
-        event_discription: event.target.description.value,
-        event_summary: event.target.summary.value,
-        event_start_date: event.target.startDate.value,
-        event_end_date: event.target.endDate.value,
-        kanban_board: props.kanbanBoardId,
-        reporter_user: 1,
-        priority: event.target.priority.value,
-        status: event.target.status.value,
-        story_point: event.target.storyPoints.value,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const result = await reponse.json();
-    // window.location.reload(true);
-    console.log(props.eventId);
-    props.setFalse();
-    // props.setUpdateProps();
-    // props.updateDataColumns();
-  };
-
   const fetchData = async () => {
     const statusDataUrl = await fetch(statusUrl);
     const statusJsonData = await statusDataUrl.json();

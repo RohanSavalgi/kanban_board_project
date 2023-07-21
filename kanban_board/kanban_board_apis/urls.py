@@ -6,10 +6,10 @@ from .views import *
 urlpatterns = [
     # Kanban Board Paths
     # path("board", getAllKanbanBoards.as_view(), name = "getAllKanbanBoard"),
-    path("board/<str:kanban_board_id>/", getKanbanBoardById.as_view(), name = "getKanbanBoard"),
+    # path("board/<str:kanban_board_id>/", getKanbanBoardById.as_view(), name = "getKanbanBoard"),
     path("board/<str:input_user_id>/", createKanbanBoard.as_view(), name = 'createKanbanBoard'),
-    path("board/<str:input_kanban_board_id>/", deleteKanbanBoard.as_view(), name = 'deleteKanbanBoard'),
-    path("board/<str:input_kanban_board_id>/", updateKanbanBoard.as_view(), name = 'updateKanbanBoard'),
+    # path("board/<str:input_kanban_board_id>/", deleteKanbanBoard.as_view(), name = 'deleteKanbanBoard'),
+    # path("board/<str:input_kanban_board_id>/", updateKanbanBoard.as_view(), name = 'updateKanbanBoard'),
     
     # GET KANBAN BY USER ID
     path("board/user/<str:input_user_id>/", getKanbanBoardByUserId.as_view(), name = "getKanbanBoardByUserId"),

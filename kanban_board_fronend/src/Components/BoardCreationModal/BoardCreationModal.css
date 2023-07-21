@@ -1,0 +1,87 @@
+.boardBackground {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(203, 203, 203, 0.37);
+
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.boardModal {
+  background-color: var(--main);
+  width: 30%;
+  height: 40%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.boardPlacement {
+  width: 90%;
+  height: 90%;
+
+  /* border: 1px solid black; */
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.closeButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.crossButton {
+  width: 20px;
+}
+
+.boardContent {
+  width: 90%;
+  margin: 1rem;
+}
+
+.buttonStyle{
+    padding: 0.4rem 1rem;
+}
+
+.boardInputField {
+  background-color: var(--main);
+  border: 1px solid #d9d9d9;
+  height: 36px;
+  color: var(--text_color);
+  width: 15rem;
+  border-radius: 5px;
+}
+
+.boardFieldName {
+  color: var(--text_color);
+  margin-bottom: 0.5rem;
+}
+
+.boardTitle {
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+}
+
+.createButtonTray{
+    margin-top: 2rem;
+    width: 100%;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.boardSaveButton{
+    background: linear-gradient(0deg, #2a4ecb, #2a4ecb),
+    linear-gradient(0deg, #d9d9d9, #d9d9d9);
+
+    color: white;
+}

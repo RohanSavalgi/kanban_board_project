@@ -12,6 +12,7 @@ import scenaryImage8 from "../../assets/natureImg8.png";
 import { useNavigate } from "react-router-dom";
 
 import "./AllBoards.css";
+import BoardCreationModal from "../../Components/BoardCreationModal/BoardCreationModal";
 
 const AllBoards = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const AllBoards = () => {
   const [allBoards, setAllBoards] = useState([]);
   const [userData, setUserData] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
+  const [createModal, setCreateModal] = useState(false);
 
   useEffect(() => {
     setLoggedIn(true);
@@ -59,15 +61,25 @@ const AllBoards = () => {
   const onClickHandler = (event) => {
     console.log(event.target.id);
     navigate(`/board/${event.target.id}/`);
+    setCreateModal(true);
   };
+
+  const openModalHandler = () => {
+    setCreateModal(true);
+  }
+
+  const closeModalHandler = () => {
+    setCreateModal(false);
+  }
 
   return (
     <React.Fragment>
       {loggedIn  && <SnackBarNotification color="green" message="Logged-in successfully" />}
       <div className="allBoardBackground">
+      { createModal && <BoardCreationModal user_id_passed={user_id} onCloseHandler={closeModalHandler} />}
         <div className="allBoardField">
           <div className="usernameTile">Welcome, {userData}</div>
-          <button className="boardCreate" onClick={onClickHandler}>
+          <button className="boardCreate" onClick={openModalHandler}>
               Create
             </button>
           <div className="allBoardsView">

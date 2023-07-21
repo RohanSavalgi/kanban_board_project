@@ -87,7 +87,7 @@ class getKanbanBoardById(View):
         else:
             return all_error_dictionary['not_found_element']
     
-class createKanbanBoard(View):
+class createKanbanBoard(View, PostData):
     def post(self, request, input_user_id):
         # Checking if the parameter is valid or not
         if not checkParameter(input_user_id):
