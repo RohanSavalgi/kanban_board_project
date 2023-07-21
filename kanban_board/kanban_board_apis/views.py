@@ -72,20 +72,20 @@ class getKanbanBoardByUserId(View, GetData):
         serializedAllKanbanBoardsByUsedId = KanbanBoardSerializer(allKanbanBoardsByUsedId, many = True)
         return JsonResponse(serializedAllKanbanBoardsByUsedId.data, status = status.HTTP_200_OK, safe = False)
 
-class getKanbanBoardById(View): 
-    def get(self, request, kanban_board_id):
-        # Checking the kanban board id is valid or not
-        if not checkParameter(kanban_board_id):
-            return all_error_dictionary['invalid_id_error']
+# class getKanbanBoardById(View): 
+#     def get(self, request, kanban_board_id):
+#         # Checking the kanban board id is valid or not
+#         if not checkParameter(kanban_board_id):
+#             return all_error_dictionary['invalid_id_error']
         
-        oneKanbanBoard = KanbanBoard.objects.filter(kanban_board_id = kanban_board_id)
-        #checking if it exists or not
-        if oneKanbanBoard.exists():
-            # Get Logic
-            serializedBoard = KanbanBoardSerializer(oneKanbanBoard, many = True)
-            return JsonResponse(serializedBoard.data, status = status.HTTP_200_OK, safe = False)
-        else:
-            return all_error_dictionary['not_found_element']
+#         oneKanbanBoard = KanbanBoard.objects.filter(kanban_board_id = kanban_board_id)
+#         #checking if it exists or not
+#         if oneKanbanBoard.exists():
+#             # Get Logic
+#             serializedBoard = KanbanBoardSerializer(oneKanbanBoard, many = True)
+#             return JsonResponse(serializedBoard.data, status = status.HTTP_200_OK, safe = False)
+#         else:
+#             return all_error_dictionary['not_found_element']
     
 class createKanbanBoard(View, PostData):
     def post(self, request, input_user_id):
@@ -110,44 +110,44 @@ class createKanbanBoard(View, PostData):
         else:
             return all_error_dictionary['invalid_id_error']
             
-class deleteKanbanBoard(View):
-    def delete(self, request, input_kanban_board_id):
-        #checking the input_kanban_board_id
-        if not checkParameter(input_kanban_board_id):
-            return all_error_dictionary['invalid_id_error']
+# class deleteKanbanBoard(View):
+#     def delete(self, request, input_kanban_board_id):
+#         #checking the input_kanban_board_id
+#         if not checkParameter(input_kanban_board_id):
+#             return all_error_dictionary['invalid_id_error']
         
-        #checking if kanban board exists or not
-        existingKanbanBoard = KanbanBoard.objects.filter(kanban_board_id = input_kanban_board_id)
-        if not existingKanbanBoard.exists():
-            return all_error_dictionary['not_found_element']
+#         #checking if kanban board exists or not
+#         existingKanbanBoard = KanbanBoard.objects.filter(kanban_board_id = input_kanban_board_id)
+#         if not existingKanbanBoard.exists():
+#             return all_error_dictionary['not_found_element']
         
-        # Deletion Logic
-        toBeDeletedBoard = KanbanBoard.objects.get(kanban_board_id = input_kanban_board_id)
-        toBeDeletedBoard.delete()
-        return JsonResponse("Deleted",status = status.HTTP_200_OK, safe = False)
+#         # Deletion Logic
+#         toBeDeletedBoard = KanbanBoard.objects.get(kanban_board_id = input_kanban_board_id)
+#         toBeDeletedBoard.delete()
+#         return JsonResponse("Deleted",status = status.HTTP_200_OK, safe = False)
     
-class updateKanbanBoard(View):
-    def put(self, request, input_kanban_board_id):
-        # Checking input kanban board id is valid or not
-        if not checkParameter(input_kanban_board_id):
-            return all_error_dictionary['invalid_id_error']
+# class updateKanbanBoard(View):
+#     def put(self, request, input_kanban_board_id):
+#         # Checking input kanban board id is valid or not
+#         if not checkParameter(input_kanban_board_id):
+#             return all_error_dictionary['invalid_id_error']
         
-        # Checking request data is valid or not
-        jsonDataOfRequest = json.loads(request.body)
-        if not checkRequestData(jsonDataOfRequest):
-            return all_error_dictionary['request_data_invalid']
+#         # Checking request data is valid or not
+#         jsonDataOfRequest = json.loads(request.body)
+#         if not checkRequestData(jsonDataOfRequest):
+#             return all_error_dictionary['request_data_invalid']
         
-        exsistingKanbanBoard = KanbanBoard.objects.filter(kanban_board_id = input_kanban_board_id)
-        # checking if the board exists or not
-        if not exsistingKanbanBoard.exists():
-            return all_error_dictionary['not_found_element']
+#         exsistingKanbanBoard = KanbanBoard.objects.filter(kanban_board_id = input_kanban_board_id)
+#         # checking if the board exists or not
+#         if not exsistingKanbanBoard.exists():
+#             return all_error_dictionary['not_found_element']
         
-        transformer = KanbanBoard.objects.get(kanban_board_id = input_kanban_board_id)
-        serializer = KanbanBoardSerializer(transformer, data = jsonDataOfRequest)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, status = status.HTTP_200_OK, safe = False)
-        return all_error_dictionary['could_not_update']
+#         transformer = KanbanBoard.objects.get(kanban_board_id = input_kanban_board_id)
+#         serializer = KanbanBoardSerializer(transformer, data = jsonDataOfRequest)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return JsonResponse(serializer.data, status = status.HTTP_200_OK, safe = False)
+#         return all_error_dictionary['could_not_update']
            
 # ALL EVENTS VIEWS
 class EventData(View, PostData, GetData):    
@@ -220,15 +220,15 @@ class EventById(View, GetData, DeleteData, PutData):
         else:
             return all_error_dictionary['not_found_element']
     
-class getEventByKanbanBoardId(View):
-    def get(self, request, input_kanban_board_id):    
-        # Checking if input kanban board id is valid or not
-        if not checkParameter(input_kanban_board_id):
-            return all_error_dictionary['invalid_id_error']
+# class getEventByKanbanBoardId(View):
+#     def get(self, request, input_kanban_board_id):    
+#         # Checking if input kanban board id is valid or not
+#         if not checkParameter(input_kanban_board_id):
+#             return all_error_dictionary['invalid_id_error']
         
-        eventsFromPerticularKanbanBoard = Event.objects.filter(kanban_board_id = input_kanban_board_id)
-        serializersEvents = EventSerializer(eventsFromPerticularKanbanBoard, many = True)
-        return JsonResponse(serializersEvents.data, status = status.HTTP_200_OK, safe = False)
+#         eventsFromPerticularKanbanBoard = Event.objects.filter(kanban_board_id = input_kanban_board_id)
+#         serializersEvents = EventSerializer(eventsFromPerticularKanbanBoard, many = True)
+#         return JsonResponse(serializersEvents.data, status = status.HTTP_200_OK, safe = False)
     
 # ALL COMMENTS VIEWS    
 class getCommentsByEventId(View):
@@ -333,7 +333,7 @@ class register(PostData, View):
             return JsonResponse(serializedUserData.errors, status = status.HTTP_400_BAD_REQUEST, safe = False)
         
     
-class getUserById(View):
+class getUserById(GetData, View):
     def get(self, request, input_user_id):
         if not checkParameter(input_user_id):
             return all_error_dictionary['invalid_id_error']

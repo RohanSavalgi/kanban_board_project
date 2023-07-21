@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import "./EventUpdationModal.css";
 import closeButton from "../../assets/closeButton.png";
 import SnackBarNotification from "../SnackBarNotification/SnackBarNotification";
+import Comments from "../Comments/Comments";
 
 const EventUpdationModal = (props) => {
   const date = new Date();
@@ -23,13 +24,26 @@ const EventUpdationModal = (props) => {
 
   useEffect(() => {
     fetchData();
-    console.log(props);
   }, []);
 
   function noDateInput(event) {
     var keyCode = event.keyCode;
-    var allowedCharacters = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "-", "/", "."];
-  
+    var allowedCharacters = [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "-",
+      "/",
+      ".",
+    ];
+
     if (allowedCharacters.indexOf(keyCode) === -1) {
       event.preventDefault();
     }
@@ -60,7 +74,6 @@ const EventUpdationModal = (props) => {
       const data = await fetch(url);
       const jsonData = await data.json();
       const postEventUrl = `http://127.0.0.1:8000/kanbanBoards/events/${jsonData[0].event_id}/`;
-      console.log(postEventUrl);
       const formData = {
         event_name: jsonData[0].event_name,
         event_type: jsonData[0].event_type,
@@ -96,8 +109,7 @@ const EventUpdationModal = (props) => {
         },
       });
       const result = await reponse.json();
-      // window.location.reload(true);
-      console.log(props);
+      window.location.reload(true);
       props.setUpdateProps();
       props.setFalse();
       props.updateDataColumns();
@@ -142,7 +154,6 @@ const EventUpdationModal = (props) => {
       });
       const result = await reponse.json();
       window.location.reload(true);
-      console.log(props);
       props.setFalse();
       // props.setUpdateProps();
       // props.updateDataColumns();
@@ -169,7 +180,7 @@ const EventUpdationModal = (props) => {
     const priorityDataUrl = await fetch(priorityUrl);
     const priorityJsonData = await priorityDataUrl.json();
     setPriorityData(priorityJsonData);
-  }
+  };
 
   const deleteData = async (event) => {
     event.preventDefault();
@@ -177,7 +188,6 @@ const EventUpdationModal = (props) => {
       method: "DELETE",
     });
     const result = (await response).json();
-    console.log(result);
     window.location.reload(true);
     props.setFalse();
   };
@@ -274,13 +284,12 @@ const EventUpdationModal = (props) => {
                 <div className="modalDate">
                   <div>
                     <div className="modalDescriptionText">Start Date</div>
-                    {console.log(props.eventId)}
                     <input
                       type="date"
                       className="dateInput"
                       min={date.getDate()}
                       name="startDate"
-                      defaultValue={ eventData.event_start_date}
+                      defaultValue={eventData.event_start_date}
                       onKeyDown={noDateInput}
                     />
                   </div>
@@ -296,7 +305,9 @@ const EventUpdationModal = (props) => {
                 </div>
                 <div className="modalRows">
                   <div className="modalDescription">
-                    <div className="modalDescriptionText">Acceptance Criteria</div>
+                    <div className="modalDescriptionText">
+                      Acceptance Criteria
+                    </div>
                     <textarea
                       name="summary"
                       className="modalDescriptionField"
@@ -308,7 +319,7 @@ const EventUpdationModal = (props) => {
                       <div className="modalDescriptionText">Reporter</div>
                       <div className="modalReporter"> {userData.user_name}</div>
                     </div>
-                    {props.eventId != 0 && (
+                    {props.eventId != 0 && selectionForStatus == 3 && (
                       <div className="modalStoryPoints">
                         <div className="modalDescriptionText">Delete Event</div>
                         <div className="outerBorder">
@@ -341,7 +352,7 @@ const EventUpdationModal = (props) => {
             {formData && "Some fields are left empty!"}
           </div>
         </div>
-        {/* <div className="comments"> hello </div> */}
+        <Comments />
       </div>
     </React.Fragment>
   );

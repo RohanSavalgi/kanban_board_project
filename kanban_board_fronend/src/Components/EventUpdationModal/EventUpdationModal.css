@@ -1,4 +1,5 @@
 .modalBackground {
+  z-index: 100;
   top: 0;
   position: fixed;
   width: 100vw;
@@ -287,29 +288,15 @@
   margin-bottom: 0.5rem;
 }
 
-.comments {
-  position: absolute;
-  right: 3.5rem;
-  background-color: var(--main);
-  color: var(--text_color);
-  width: 20rem;
-  height: 65%;
-
-  height: 64%;
-  border-radius: 10px;
-
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
-  align-items: center;
-}
-
 @keyframes backgroundEmerge {
   0% {
     background-color: transparent;
+    backdrop-filter: blur(0px);
   }
   100% {
     background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(6px);
+
   }
 }
 

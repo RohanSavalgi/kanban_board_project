@@ -3,6 +3,17 @@
     padding: 0.2rem;
 }
 
+.eventCard:hover{
+    border: 1px solid #2a4ecb;
+    transform: scale(1.1);
+
+    transition-property: all;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in-out;
+
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;    
+}
+
 .cardHeader{
     font-size: 16px;
     color: var(--text_color);
@@ -54,4 +65,16 @@
     justify-content: center;
     align-items: center;
     gap: 0.2rem;
+}
+
+@keyframes borderChange {
+    0%{
+        transform: scale(1);
+    }
+    50%{
+        transition: scale(1.2);
+    }
+    100%{
+        transition: scale(1.1);
+    }
 }
