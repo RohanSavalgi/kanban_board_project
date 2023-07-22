@@ -43,8 +43,8 @@ urlpatterns = [
     path("register/", register.as_view(), name="registerANewUser"),
     
     # Comments Paths
-    path("getCommentsByEventId/<str:input_event_id>/", getCommentsByEventId.as_view(), name = "getCommentsByEventId"),
-    path("createComment/", createComment.as_view(), name = "createComment"),
-    path("updateComment/<str:input_comment_id>/", updateComment.as_view(), name = "updateComment"),
-    path("deleteComment/<str:input_comment_id>/", deleteComment.as_view(), name = "deleteComment"),
+    path("comment/<str:input_event_id>/", getCommentsByEventId.as_view(), name = "getCommentsByEventId"),
+    path("comment/", createComment.as_view(), name = "createComment"),
+    # path("updateComment/<str:input_comment_id>/", updateComment.as_view(), name = "updateComment"),
+    # path("deleteComment/<str:input_comment_id>/", deleteComment.as_view(), name = "deleteComment"),
 ]

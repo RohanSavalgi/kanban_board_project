@@ -1,0 +1,36 @@
+$themes: (
+  light: (
+    main: #fff,
+    secondary: #eee,
+    accent: #2a4ecb,
+    text_color: #333,
+  ),
+  dark: (
+    main: #333,
+    secondary: #4e4e4e,
+    accent: #2a4ecb,
+    text_color: #e7e7e7,
+  ),
+);
+
+@mixin themify($themes) {
+    @each $theme, $map in $themes {
+      .theme-#{$theme} & {
+        $theme-map: () !global;
+        @each $key, $submap in $map {
+          $value: map-get(map-get($themes, $theme), '#{$key}');
+          $theme-map: map-merge(
+            $theme-map,
+              (
+                $key: $value,
+              )
+            ) !global;
+          }
+          @content;
+          $theme-map: null !global;
+        }
+     }
+  }
+  @function themed($key) {
+    @return map-get($theme-map, $key);
+  }

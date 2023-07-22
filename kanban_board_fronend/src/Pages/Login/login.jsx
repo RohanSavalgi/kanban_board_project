@@ -3,9 +3,11 @@ import crypto from "crypto-js";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
 import KanbanBoardImage from "../../assets/kanban.png";
+import urlPath from '../../URL/url';
+import DarkLighButton from "../../Components/DarkLightButton/DarkLightButton";
 
-const loginUrl = "http://127.0.0.1:8000/kanbanBoards/login/";
-const registerUrl = "http://127.0.0.1:8000/kanbanBoards/register/";
+const loginUrl = `http://${urlPath}:8000/kanbanBoards/login/`;
+const registerUrl = `http://${urlPath}:8000/kanbanBoards/register/`;
 
 const Login = () => {
   const [wrongPass, setWrongPass] = useState(false);
@@ -82,6 +84,7 @@ const Login = () => {
 
   return (
     <React.Fragment>
+      <DarkLighButton />
       <div className="loginBackground">
         <div className="loginCard">
           <div className="loginBorder">

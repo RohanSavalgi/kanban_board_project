@@ -247,11 +247,11 @@ class getCommentsByEventId(View):
         serializersComments = CommentSerializer(commentsForPerticularEvent, many = True)
         return JsonResponse(serializersComments.data, status = status.HTTP_200_OK, safe = False)
     
-class createComment(View):
+class createComment(PostData, View):
     def post(self, request):
         requestConvertedToJson = json.loads(request.body)
-        if checkRequestData(request):
-            return all_error_dictionary['request_data_invalid']
+        # if checkRequestData(request):
+        #     return all_error_dictionary['request_data_invalid']
         
         serializedComment = CommentSerializer(data = requestConvertedToJson)
         if serializedComment.is_valid():

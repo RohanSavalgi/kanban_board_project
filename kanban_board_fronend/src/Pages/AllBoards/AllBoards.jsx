@@ -11,8 +11,11 @@ import scenaryImage7 from "../../assets/natureImg7.png";
 import scenaryImage8 from "../../assets/natureImg8.png";
 import { useNavigate } from "react-router-dom";
 
+import urlPath from '../../URL/url'
+
 import "./AllBoards.css";
 import BoardCreationModal from "../../Components/BoardCreationModal/BoardCreationModal";
+import DarkLighButton from "../../Components/DarkLightButton/DarkLightButton";
 
 const AllBoards = () => {
   const navigate = useNavigate();
@@ -28,9 +31,8 @@ const AllBoards = () => {
     getData();
   }, []);
 
-
-  const getBoardsUrl = `http://127.0.0.1:8000/kanbanBoards/board/user/${user_id}/`;
-  const getUserUrl = `http://127.0.0.1:8000/kanbanBoards/user/${user_id}/`;
+  const getBoardsUrl = `http://${urlPath}:8000/kanbanBoards/board/user/${user_id}/`;
+  const getUserUrl = `http://${urlPath}:8000/kanbanBoards/user/${user_id}/`;
 
   const getData = async () => {
     const userResponse = await fetch(getUserUrl);
@@ -74,6 +76,7 @@ const AllBoards = () => {
 
   return (
     <React.Fragment>
+      <DarkLighButton />
       {loggedIn  && <SnackBarNotification color="green" message="Logged-in successfully" />}
       <div className="allBoardBackground">
       { createModal && <BoardCreationModal user_id_passed={user_id} onCloseHandler={closeModalHandler} />}

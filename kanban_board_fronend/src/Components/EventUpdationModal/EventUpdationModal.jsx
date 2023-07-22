@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
+import urlPath from "../../URL/url";
 
 import "./EventUpdationModal.css";
 import closeButton from "../../assets/closeButton.png";
 import SnackBarNotification from "../SnackBarNotification/SnackBarNotification";
-import Comments from "../Comments/Comments";
 
 const EventUpdationModal = (props) => {
   const date = new Date();
 
-  const url = `http://127.0.0.1:8000/kanbanBoards/events/${props.eventId}/`;
-  const statusUrl = `http://127.0.0.1:8000/kanbanBoards/status/`;
-  const priorityUrl = `http://127.0.0.1:8000/kanbanBoards/priority/`;
-  const creatUrl = "http://127.0.0.1:8000/kanbanBoards/event/";
-  const deleteUrl = `http://127.0.0.1:8000/kanbanBoards/events/${props.eventId}/`;
+  const url = `http://${urlPath}:8000/kanbanBoards/events/${props.eventId}/`;
+  const statusUrl = `http://${urlPath}:8000/kanbanBoards/status/`;
+  const priorityUrl = `http://${urlPath}:8000/kanbanBoards/priority/`;
+  const creatUrl = `http://${urlPath}:8000/kanbanBoards/event/`;
+  const deleteUrl = `http://${urlPath}:8000/kanbanBoards/events/${props.eventId}/`;
+  const createCommentUrl = `http://${urlPath}:8000/kanbanBoards/comment/`;
 
   const [eventData, setEventData] = useState({});
   const [statusData, setStatusData] = useState([]);
@@ -21,10 +22,16 @@ const EventUpdationModal = (props) => {
   const [userData, setUserData] = useState({});
   const [selectionForStatus, setSelectionForStatus] = useState(0);
   const [selectionForPriority, setSelectionForPriority] = useState(0);
+  const [comments, setComments] = useState([]);
+  const [commentsChanged, setCommentsChanged] = useState(1);
 
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    fetchComments();
+  },[commentsChanged])
 
   function noDateInput(event) {
     var keyCode = event.keyCode;
@@ -73,7 +80,8 @@ const EventUpdationModal = (props) => {
       event.preventDefault();
       const data = await fetch(url);
       const jsonData = await data.json();
-      const postEventUrl = `http://127.0.0.1:8000/kanbanBoards/events/${jsonData[0].event_id}/`;
+
+      const postEventUrl = `http://${urlPath}:8000/kanbanBoards/events/${jsonData[0].event_id}/`;
       const formData = {
         event_name: jsonData[0].event_name,
         event_type: jsonData[0].event_type,
@@ -160,7 +168,25 @@ const EventUpdationModal = (props) => {
     }
   };
 
+  const fetchComments = async () => {
+    if (props.eventId != 0) {
+      const getCommentsUrl = `http://${urlPath}:8000/kanbanBoards/comment/${props.eventId}/`;
+      const respose = await fetch(getCommentsUrl);
+      console.log(getCommentsUrl);
+      const commentsJson = await respose.json();
+      setComments(commentsJson);
+    }
+  }
+
   const fetchData = async () => {
+    if (props.eventId != 0) {
+      const getCommentsUrl = `http://${urlPath}:8000/kanbanBoards/comment/${props.eventId}/`;
+      const respose = await fetch(getCommentsUrl);
+      console.log(getCommentsUrl);
+      const commentsJson = await respose.json();
+      setComments(commentsJson);
+    }
+
     const statusDataUrl = await fetch(statusUrl);
     const statusJsonData = await statusDataUrl.json();
     setStatusData(statusJsonData);
@@ -172,7 +198,7 @@ const EventUpdationModal = (props) => {
       setSelectionForStatus(jsonData[0].status);
       setSelectionForPriority(jsonData[0].priority);
 
-      const userUrl = `http://127.0.0.1:8000/kanbanBoards/user/${jsonData[0].reporter_user}/`;
+      const userUrl = `http://${urlPath}:8000/kanbanBoards/user/${jsonData[0].reporter_user}/`;
       const user = await fetch(userUrl);
       const jsonUserData = await user.json();
       setUserData(jsonUserData[0]);
@@ -192,12 +218,30 @@ const EventUpdationModal = (props) => {
     props.setFalse();
   };
 
+  const createComment = async (event) => {
+    event.preventDefault();
+    const reponse = await fetch(createCommentUrl, {
+      method: "POST",
+      body: JSON.stringify({
+        comment_body: event.target.commentInput.value,
+        comment_timestamp: "2023-05-05 12:12:12",
+        event: props.eventId,
+        user: userData.user_id,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    event.target.commentInput.value = "";
+    setCommentsChanged(commentsChanged + 1);
+  };
+
   let content = (
     <React.Fragment>
       <div className="modalBackground">
         <div className="modal">
           <div className="modalPlacableContent">
-            <div className="firstRow">
+            <div className="firstRowCross">
               <button className="crossButton" onClick={props.setFalse}>
                 <img className="crossButtonStyle" src={closeButton} />
               </button>
@@ -290,7 +334,7 @@ const EventUpdationModal = (props) => {
                       min={date.getDate()}
                       name="startDate"
                       defaultValue={eventData.event_start_date}
-                      onKeyDown={noDateInput}
+                      // onKeyDown={noDateInput}
                     />
                   </div>
                   <div>
@@ -317,7 +361,8 @@ const EventUpdationModal = (props) => {
                   <div className="modalOther">
                     <div className="modalStoryPoints">
                       <div className="modalDescriptionText">Reporter</div>
-                      <div className="modalReporter"> {userData.user_name}</div>
+                      <input className="" />
+                      {/* <div className="modalReporter"> {userData.user_name}</div> */}
                     </div>
                     {props.eventId != 0 && selectionForStatus == 3 && (
                       <div className="modalStoryPoints">
@@ -352,7 +397,37 @@ const EventUpdationModal = (props) => {
             {formData && "Some fields are left empty!"}
           </div>
         </div>
-        <Comments />
+        {props.eventId != 0 && (
+          <div className="comments">
+            <div className="commentsHeader">Comments</div>
+            <div className="allCommentsList">
+              {comments.length > 0 &&
+                comments.map((item) => (
+                  <div key={item.comment_id} className="message">
+                    <div className="firstRow">
+                      <div className="userId"> {item.user} </div>
+                      <div className="commentMessage">
+                        {" "}
+                        {item.comment_body}{" "}
+                      </div>
+                    </div>
+                    <div className="time"> {item.comment_timestamp} </div>
+                  </div>
+                ))}
+            </div>
+            <form className="insertComment" onSubmit={createComment}>
+              <input
+                type="text"
+                name="commentInput"
+                placeholder="Comment"
+                className="commentsInput"
+              />
+              <button className="commentButton" type="submit">
+                Send
+              </button>
+            </form>
+          </div>
+        )}
       </div>
     </React.Fragment>
   );

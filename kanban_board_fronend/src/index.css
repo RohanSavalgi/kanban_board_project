@@ -1,5 +1,4 @@
 :root {
-  
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -7,22 +6,22 @@
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
-  
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-  
-  --main: #FFF;
+
+  /* --main: #FFF;
   --secondary: #eee;
   --accent: #2a4ecb;
-  --text_color: #333;
+  --text_color: #333; */
 
   /* --main: #333;
-  --secondary: #4e4e4e;
-  --accent: #2A4ECB;
-  --text_color: #e7e7e7; */
+    --secondary: #4e4e4e;
+    --accent: #2A4ECB;
+    --text_color: #e7e7e7; */
 }
 
 a {
@@ -40,6 +39,32 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+
+  transition: all;
+  transition-timing-function: ease-in-out;
+  transition-duration: 0.3s;
+}
+
+.light {
+  --main: #fff;
+  --secondary: #eee;
+  --accent: #2a4ecb;
+  --text_color: #333;
+
+  transition: all;
+  transition-timing-function: ease-in-out;
+  transition-duration: 0.3s;
+}
+
+.dark {
+  --main: #333;
+  --secondary: #4e4e4e;
+  --accent: #2a4ecb;
+  --text_color: #e7e7e7;
+
+  transition: all;
+  transition-timing-function: ease-in-out;
+  transition-duration: 0.3s;
 }
 
 h1 {

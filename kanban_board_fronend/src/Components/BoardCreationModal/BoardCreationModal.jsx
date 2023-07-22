@@ -1,5 +1,6 @@
 import React from "react";
 import closeButton from "../../assets/closeButton.png";
+import urlPath from '../../URL/url';
 
 import "./BoardCreationModal.css";
 
@@ -7,7 +8,7 @@ import "./BoardCreationModal.css";
 const BoardCreationModal = (props) => {
     const createBoard = async (event) => {
         event.preventDefault();
-      const createBoardUrl = `http://127.0.0.1:8000/kanbanBoards/board/${props.user_id_passed}/`;
+      const createBoardUrl = `http://${urlPath}:8000/kanbanBoards/board/${props.user_id_passed}/`;
     
     //   console.log(event.target.boardName.value);
     

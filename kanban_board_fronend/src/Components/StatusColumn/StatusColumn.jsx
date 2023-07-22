@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import urlPath from '../../URL/url';
 
 import "./StatusColumn.css";
 import EventCard from "../EventCard/EventCard";
@@ -7,7 +8,7 @@ import EventUpdationModal from "../EventUpdationModal/EventUpdationModal";
 import SnackBarNotification from "../SnackBarNotification/SnackBarNotification";
 
 const StatusColumn = (props) => {
-  const url = `http://127.0.0.1:8000/kanbanBoards/event/${props.kanbanId}/`;
+  const url = `http://${urlPath}:8000/kanbanBoards/event/${props.kanbanId}/`;
 
   // state for the data
   const [events, setEvents] = useState([]);

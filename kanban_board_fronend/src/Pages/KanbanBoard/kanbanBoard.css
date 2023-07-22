@@ -9,6 +9,28 @@
   justify-content: center;
 }
 
+.dashboard{
+  position: fixed;
+  top: 2rem;
+  right: 8rem;
+
+  width: 30rem;
+  height: 15rem;
+  background-color: var(--main);
+  border: 1px solid grey;
+  border-radius: 10px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 1rem;
+}
+
+.dashboardHead{
+  color: var(--text_color);
+  font-weight: 600;
+}
+
 .noEvents {
   color: var(--text_color);
 }
