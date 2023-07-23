@@ -31,7 +31,7 @@ const EventUpdationModal = (props) => {
 
   useEffect(() => {
     fetchComments();
-  },[commentsChanged])
+  }, [commentsChanged]);
 
   function noDateInput(event) {
     var keyCode = event.keyCode;
@@ -92,8 +92,9 @@ const EventUpdationModal = (props) => {
         reporter_user: 1,
         priority: event.target.priority.value,
         status: event.target.status.value,
+        story_points: Number(event.target.storyPoints.value),
       };
-
+      console.log(formData);
       if (checkForm(formData) == false) {
         return null;
       }
@@ -111,6 +112,7 @@ const EventUpdationModal = (props) => {
           reporter_user: 1,
           priority: event.target.priority.value,
           status: event.target.status.value,
+          story_point: Number(event.target.storyPoints.value),
         }),
         headers: {
           "Content-Type": "application/json",
@@ -134,7 +136,7 @@ const EventUpdationModal = (props) => {
         reporter_user: 1,
         priority: event.target.priority.value,
         status: event.target.status.value,
-        story_point: event.target.storyPoints.value,
+        story_point: Number(event.target.storyPoints.value),
       };
 
       if (checkForm(data) == false) {
@@ -155,7 +157,7 @@ const EventUpdationModal = (props) => {
           reporter_user: 1,
           priority: event.target.priority.value,
           status: event.target.status.value,
-          story_point: event.target.storyPoints.value,
+          story_point: Number(event.target.storyPoints.value),
         }),
         headers: {
           "Content-Type": "application/json",
@@ -177,7 +179,7 @@ const EventUpdationModal = (props) => {
       const commentsJson = await respose.json();
       setComments(commentsJson);
     }
-  }
+  };
 
   const fetchData = async () => {
     if (props.eventId != 0) {
@@ -196,6 +198,7 @@ const EventUpdationModal = (props) => {
       const data = await fetch(url);
       const jsonData = await data.json();
       setEventData(jsonData[0]);
+      console.log(jsonData)
       setSelectionForStatus(jsonData[0].status);
       setSelectionForPriority(jsonData[0].priority);
 
@@ -360,8 +363,7 @@ const EventUpdationModal = (props) => {
                     />
                   </div>
                   <div className="modalOther">
-                    <div className="modalStoryPoints">
-                    </div>
+                    <div className="modalStoryPoints"></div>
                     {props.eventId != 0 && selectionForStatus == 3 && (
                       <div className="modalStoryPoints">
                         <div className="modalDescriptionText">Delete Event</div>
@@ -404,9 +406,7 @@ const EventUpdationModal = (props) => {
                   <div key={item.comment_id} className="message">
                     <div className="firstRow">
                       <div className="userId"> {item.user} </div>
-                      <div className="commentMessage">
-                        {item.comment_body}
-                      </div>
+                      <div className="commentMessage">{item.comment_body}</div>
                     </div>
                     <div className="time"> {item.comment_timestamp} </div>
                   </div>
