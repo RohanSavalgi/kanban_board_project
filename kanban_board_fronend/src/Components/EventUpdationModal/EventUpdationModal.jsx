@@ -407,8 +407,7 @@ const EventUpdationModal = (props) => {
                     <div className="firstRow">
                       <div className="userId"> {item.user} </div>
                       <div className="commentMessage">
-                        {" "}
-                        {item.comment_body}{" "}
+                        {item.comment_body}
                       </div>
                     </div>
                     <div className="time"> {item.comment_timestamp} </div>

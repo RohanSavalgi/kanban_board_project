@@ -9,13 +9,19 @@
   justify-content: center;
 }
 
+.charts{
+  /* width: 100%; */
+  display: flex;
+  flex-flow: row nowrap;
+}
+
 .dashboard{
   position: fixed;
   top: 2rem;
   right: 8rem;
 
   width: 30rem;
-  height: 15rem;
+  height: fit-content;
   background-color: var(--main);
   border: 1px solid grey;
   border-radius: 10px;
@@ -106,6 +112,37 @@
   color: var(--text_color);
 }
 
+.progressBar{
+  width: 100%;
+}
+
+.wrapper {
+  border: 3px solid blue;
+}
+
+.progressBar{
+  
+}
+
+.container {
+  background-color: var(--secondary);
+  border-radius: 10px;
+}
+
+.barCompleted {
+  background-color: var(--accent);
+  border-radius: 10px;
+}
+
+.label {
+  color: whitesmoke;
+  font-weight: 600;
+}
+
+.label::after{
+  content: "%"
+}
+
 .createButton {
   background: linear-gradient(0deg, #2a4ecb, #2a4ecb),
     linear-gradient(0deg, #d9d9d9, #d9d9d9);
@@ -128,6 +165,13 @@
   transition-duration: 0.3s;
   transition-timing-function: ease-in-out;
   box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+}
+
+.pieChart{
+  width: 10rem !important;
+  height: 10rem !important;
+
+  border-right: 1px solid grey;
 }
 
 .columns {

@@ -11,7 +11,7 @@ import scenaryImage7 from "../../assets/natureImg7.png";
 import scenaryImage8 from "../../assets/natureImg8.png";
 import { useNavigate } from "react-router-dom";
 
-import urlPath from '../../URL/url'
+import urlPath from "../../URL/url";
 
 import "./AllBoards.css";
 import BoardCreationModal from "../../Components/BoardCreationModal/BoardCreationModal";
@@ -27,6 +27,9 @@ const AllBoards = () => {
   const [createModal, setCreateModal] = useState(false);
 
   useEffect(() => {
+    if (sessionStorage.getItem("token") == 0) {
+      navigate("/");
+    }
     setLoggedIn(true);
     getData();
   }, []);
@@ -68,23 +71,30 @@ const AllBoards = () => {
 
   const openModalHandler = () => {
     setCreateModal(true);
-  }
+  };
 
   const closeModalHandler = () => {
     setCreateModal(false);
-  }
+  };
 
   return (
     <React.Fragment>
       <DarkLighButton />
-      {loggedIn  && <SnackBarNotification color="green" message="Logged-in successfully" />}
+      {loggedIn && (
+        <SnackBarNotification color="green" message="Logged-in successfully" />
+      )}
       <div className="allBoardBackground">
-      { createModal && <BoardCreationModal user_id_passed={user_id} onCloseHandler={closeModalHandler} />}
+        {createModal && (
+          <BoardCreationModal
+            user_id_passed={user_id}
+            onCloseHandler={closeModalHandler}
+          />
+        )}
         <div className="allBoardField">
           <div className="usernameTile">Welcome, {userData}</div>
           <button className="boardCreate" onClick={openModalHandler}>
-              Create
-            </button>
+            Create
+          </button>
           <div className="allBoardsView">
             {allBoards.map((item) => (
               <div

@@ -1,47 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import Chart from "chart.js/auto";
-import { CategoryScale } from "chart.js";
-import urlPath from '../../URL/url'
+import { useNavigate, useParams } from "react-router-dom";
+import urlPath from "../../URL/url";
+
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Doughnut } from "react-chartjs-2";
+import ProgressBar from "@ramonak/react-progress-bar";
 
 import "./kanbanBoard.css";
 import StatusColumn from "../../Components/StatusColumn/StatusColumn";
 import EventUpdationModal from "../../Components/EventUpdationModal/EventUpdationModal";
 import DarkLighButton from "../../Components/DarkLightButton/DarkLightButton";
-import PieChart from "../../Components/PieChart/PieChart";
 
 const KanbanBoard = () => {
-
-  const Data = [
-    {
-      id: 1,
-      year: 2016,
-      userGain: 1,
-    },
-    {
-      id: 2,
-      year: 2017,
-      userGain: 2,
-    },
-    {
-      id: 3,
-      year: 2018,
-      userGain: 3,
-    },
-    {
-      id: 4,
-      year: 2019,
-      userGain: 2,
-    },
-    {
-      id: 5,
-      year: 2020,
-      userGain: 2,
-    }
-  ];
-
+  const navigate = useNavigate();
   const { board_id } = useParams();
+
   const [eventData, setEventData] = useState([]);
+  const [modalOpenOrClose, setModalOpenOrClose] = useState(false);
+  const [searchedText, setSearchedText] = useState("");
 
   const getUrl = `http://${urlPath}:8000/kanbanBoards/event/${board_id}/`;
 
@@ -51,18 +27,17 @@ const KanbanBoard = () => {
     // console.log(jsonData);
     setEventData(jsonData);
 
-    if (jsonData.length > 0) {
-      setNoEvents(false);
-    }
+    // if (jsonData.length > 0) {
+    //   setNoEvents(false);
+    // }
   };
 
   useEffect(() => {
+    if (sessionStorage.getItem("token") == 0) {
+      navigate("/");
+    }
     fetchData();
   }, []);
-  
-  
-  const [modalOpenOrClose, setModalOpenOrClose] = useState(false);
-  const [searchedText, setSearchedText] = useState("");
 
   const onClickHandler = () => {
     setModalOpenOrClose(true);
@@ -77,27 +52,79 @@ const KanbanBoard = () => {
     setSearchedText(lowerCase);
   };
 
-  Chart.register(CategoryScale);
+  ChartJS.register(ArcElement, Tooltip, Legend);
 
-  const [chartData, setChartData] = useState({
-    labels: Data.map((data) => data.year), 
+  let dataValues = [0, 0, 0];
+  if (eventData.length > 0) {
+    dataValues = [
+      eventData.filter((item) => {
+        if (item.status == 1) return item;
+      }).length,
+      eventData.filter((item) => {
+        if (item.status == 2) return item;
+      }).length,
+      eventData.filter((item) => {
+        if (item.status == 3) return item;
+      }).length,
+    ];
+  }
+
+  let priorityValues = [0, 0, 0];
+  if (eventData.length > 0) {
+    priorityValues = [
+      eventData.filter((item) => {
+        if (item.priority == 1) return item;
+      }).length,
+      eventData.filter((item) => {
+        if (item.priority == 2) return item;
+      }).length,
+      eventData.filter((item) => {
+        if (item.priority == 3 || item.priority == 4) return item;
+      }).length,
+    ];
+  }
+
+  const data = {
+    labels: ["Not Started", "In Progress", "Completed"],
     datasets: [
       {
-        label: "Users Gained ",
-        data: Data.map((data) => data.userGain),
+        label: "Number of Events",
+        data: dataValues,
         backgroundColor: [
-          "rgba(75,192,192,1)",
-          "#ecf0f1",
-          "#50AF95",
-          "#f3ba2f",
-          "#2a71d0"
+          "rgba(255, 99, 132, 0.2)",
+          "rgba(255, 206, 86, 0.2)",
+          "rgba(144, 238, 144, 0.2)",
         ],
-        borderColor: "black",
-        borderWidth: 2
-      }
-    ]
-  });
+        borderColor: [
+          "rgba(255, 99, 132, 1)",
+          "rgba(255, 206, 86, 1)",
+          "rgba(144, 238, 144, 1)",
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
 
+  const dataPriority = {
+    labels: ["Priority 1", "Priority 2", "Priority 3 & P4"],
+    datasets: [
+      {
+        label: "Number of Events",
+        data: priorityValues,
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.2)",
+          "rgba(255, 206, 86, 0.2)",
+          "rgba(144, 238, 144, 0.2)",
+        ],
+        borderColor: [
+          "rgba(255, 99, 132, 1)",
+          "rgba(255, 206, 86, 1)",
+          "rgba(144, 238, 144, 1)",
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
   return (
     <>
       <DarkLighButton />
@@ -112,8 +139,34 @@ const KanbanBoard = () => {
         <div className="kanbanBoard">
           <div className="dashboard">
             <div className="dashboardHead"> Dashboard </div>
-            <div>Statuses</div>
-            <PieChart chartData={chartData} />
+            <div>Status</div>
+            <div className="charts">
+              <Doughnut className="pieChart" data={data} />
+              <Doughnut className="pieChart" data={dataPriority} />
+            </div>
+            {eventData.length > 0 && (
+              <>
+                <div>Progress</div>
+                <div className="progressBar">
+                  <ProgressBar
+                    className="progressBar"
+                    barContainerClassName="container"
+                    bgColor="rgba(42, 78, 203, 0.7)"
+                    labelClassName="label"
+                    completed={
+                      eventData.length > 0 &&
+                      (
+                        (eventData.filter((item) => {
+                          if (item.status == 3) return item;
+                        }).length /
+                          eventData.length) *
+                        100
+                      ).toFixed(2) || 0
+                    }
+                  />
+                </div>
+              </>
+            )}
           </div>
           <header className="kanbanBoardTitle"> Kanban Board </header>
           <div className="createrName"> Buzz Aldrin's Task </div>
@@ -129,7 +182,6 @@ const KanbanBoard = () => {
                 value={searchedText}
                 onChange={searchChanged}
               />
-              {/* <button className="searchClear" onClick={clearSearch}>X</button> */}
             </div>
           </div>
           <div className="columns">

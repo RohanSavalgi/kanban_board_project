@@ -10,6 +10,7 @@ const loginUrl = `http://${urlPath}:8000/kanbanBoards/login/`;
 const registerUrl = `http://${urlPath}:8000/kanbanBoards/register/`;
 
 const Login = () => {
+  sessionStorage.setItem("token", 0);
   const [wrongPass, setWrongPass] = useState(false);
   const [register, setRegister] = useState(false);
 
@@ -36,6 +37,7 @@ const Login = () => {
     if (result != "Failed") {
       setWrongPass(false);
       const url = "/allBoards/" + result.user_id;
+      sessionStorage.setItem("token", result.user_id);
       navigate(url);
     } else {
       setWrongPass(true);
