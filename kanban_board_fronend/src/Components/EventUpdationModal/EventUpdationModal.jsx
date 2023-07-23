@@ -140,6 +140,7 @@ const EventUpdationModal = (props) => {
       if (checkForm(data) == false) {
         return null;
       }
+      console.log(data);
 
       const reponse = await fetch(creatUrl, {
         method: "POST",
@@ -360,9 +361,6 @@ const EventUpdationModal = (props) => {
                   </div>
                   <div className="modalOther">
                     <div className="modalStoryPoints">
-                      <div className="modalDescriptionText">Reporter</div>
-                      <input className="" />
-                      {/* <div className="modalReporter"> {userData.user_name}</div> */}
                     </div>
                     {props.eventId != 0 && selectionForStatus == 3 && (
                       <div className="modalStoryPoints">

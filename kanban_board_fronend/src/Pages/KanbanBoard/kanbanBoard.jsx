@@ -131,7 +131,7 @@ const KanbanBoard = () => {
       {modalOpenOrClose && (
         <EventUpdationModal
           eventId={"0"}
-          kanbanBoardId={1}
+          kanbanBoardId={board_id}
           setFalse={closeModal}
         />
       )}
