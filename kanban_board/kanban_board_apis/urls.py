@@ -4,14 +4,14 @@ from django.urls import path, include
 from .views import *
 
 urlpatterns = [
-    # Kanban Board Paths
+    # KANBAN BOARD PATHS
     # CREATE A NEW KANBAN BOARD
     path("board/<str:input_user_id>/", createKanbanBoard.as_view(), name = 'createKanbanBoard'),
     
     # GET KANBAN BY USER ID
     path("board/user/<str:input_user_id>/", getKanbanBoardByUserId.as_view(), name = "getKanbanBoardByUserId"),
     
-    # Event Paths
+    # EVENT PATHS
     # CREATE EVENT
     path("event/", EventData.as_view(), name = "createEvent"),
     
@@ -28,23 +28,29 @@ urlpatterns = [
     path("events/<str:input_event_id>/", EventById.as_view(), name="getEventById"),
     
     
-    # Status Paths
+    # STATUS PATHS
+    #  GET ALL STATUS
     path("status/", getAllStatus.as_view(), name="getAllStatus"),
     
-    # Priority Paths
+    # PRIORITY PATHS
+    # GET ALL PRIORITIES
     path("priority/", getAllPriority.as_view(), name="getAllStatus"),
     
-    # Users Path
+    # USER PATHS
+    # GET USER INFO BY USER ID
     path("user/<str:input_user_id>/", getUserById.as_view(), name="getUserById"), 
     
-    # Auth Path
+    # AUTH PATHS
+    # LOGIN 
     path("login/", login.as_view(), name="login function"),
     
+    # REGISTER
     path("register/", register.as_view(), name="registerANewUser"),
     
-    # Comments Paths
+    # COMMENTS PATHS
+    # GET ALL COMMENTS BASED ON EVENT ID
     path("comment/<str:input_event_id>/", getCommentsByEventId.as_view(), name = "getCommentsByEventId"),
+    
+    # CREATE A NEW COMMENT
     path("comment/", createComment.as_view(), name = "createComment"),
-    # path("updateComment/<str:input_comment_id>/", updateComment.as_view(), name = "updateComment"),
-    # path("deleteComment/<str:input_comment_id>/", deleteComment.as_view(), name = "deleteComment"),
 ]
