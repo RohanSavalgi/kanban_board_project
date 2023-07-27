@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,14 +20,34 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
+
+# # Redirect all HTTP requests to HTTPS
+# SECURE_SSL_REDIRECT = True
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-a#6b&4#+(ia%3onlltfai5993^k5yhylt&xw6n#5l+@v@b@hd('
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
+# SSL_DIR = os.path.join(BASE_DIR, 'certificates')
+# CERTIFICATE_FILE = os.path.join(SSL_DIR, 'localhost.crt')
+# PRIVATE_KEY_FILE = os.path.join(SSL_DIR, 'localhost.decrypted.key')
+
+# if DEBUG:
+#     CERTIFICATE_FILE = os.path.join(SSL_DIR, 'localhost.crt')
+#     PRIVATE_KEY_FILE = os.path.join(SSL_DIR, 'localhost.key')
+    
+#     if os.path.exists(CERTIFICATE_FILE) and os.path.exists(PRIVATE_KEY_FILE):
+#         SECURE_SSL_REDIRECT = True
+#         SECURE_SSL_HOST = 'secure'  # Set a unique value to differentiate from the non-secure server
+#         SECURE_SSL_REDIRECT_EXEMPT = [r'^health_check/$']  # URLs to exclude from HTTPS redirect
+#         SECURE_HSTS_SECONDS = 31536000  # 1 year in seconds (optional)
+#         SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # (optional)
 
 # Application definition
 
@@ -39,6 +60,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'kanban_board_apis',
     'corsheaders',
+    'sslserver',
+    # 'django_extensions',
     # 'rest_framework'
 ]
 
@@ -50,10 +73,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
     'corsheaders.middleware.CorsMiddleware',
     # 'django.middleware.common.CommonMiddleware',
 ]
+
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+# SECURE_SSL_REDIRECT = True
 
 CORS_ALLOW_ALL_ORIGINS = True # If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
 CORS_ALLOW_CREDENTIALS = True

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import urlPath from "../../URL/url";
+import http from '../../URL/httpsOrhttps'
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
@@ -19,20 +20,23 @@ const KanbanBoard = () => {
   const [modalOpenOrClose, setModalOpenOrClose] = useState(false);
   const [searchedText, setSearchedText] = useState("");
 
-  const getUrl = `http://${urlPath}:8000/kanbanBoards/event/${board_id}/`;
+  const getUrl = `${http}://${urlPath}:8000/kanbanBoards/event/${board_id}/`;
 
   const fetchData = async () => {
     const data = await fetch(getUrl);
     const jsonData = await data.json();
-    // console.log(jsonData);
     setEventData(jsonData);
-
-    // if (jsonData.length > 0) {
-    //   setNoEvents(false);
-    // }
   };
 
   useEffect(() => {
+    document.body.classList.add("light")
+    // if (localStorage.getItem("theme") == "light") {
+    //   document.body.classList.remove("dark");
+    //   document.body.classList.add("light");
+    // } else {
+    //   document.body.classList.remove("light");
+    //   document.body.classList.add("dark");
+    // }
     if (sessionStorage.getItem("token") == 0) {
       navigate("/");
     }

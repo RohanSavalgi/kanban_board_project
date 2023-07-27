@@ -12,6 +12,7 @@ import scenaryImage8 from "../../assets/natureImg8.png";
 import { useNavigate } from "react-router-dom";
 
 import urlPath from "../../URL/url";
+import http from '../../URL/httpsOrhttps';
 
 import "./AllBoards.css";
 import BoardCreationModal from "../../Components/BoardCreationModal/BoardCreationModal";
@@ -27,6 +28,14 @@ const AllBoards = () => {
   const [createModal, setCreateModal] = useState(false);
 
   useEffect(() => {
+    document.body.classList.add("light");
+    // if (localStorage.getItem("theme") == "light") {
+    //   document.body.classList.remove("dark");
+    //   document.body.classList.add("light");
+    // } else {
+    //   document.body.classList.remove("light");
+    //   document.body.classList.add("dark");
+    // }
     if (sessionStorage.getItem("token") == 0) {
       navigate("/");
     }
@@ -34,8 +43,8 @@ const AllBoards = () => {
     getData();
   }, []);
 
-  const getBoardsUrl = `http://${urlPath}:8000/kanbanBoards/board/user/${user_id}/`;
-  const getUserUrl = `http://${urlPath}:8000/kanbanBoards/user/${user_id}/`;
+  const getBoardsUrl = `${http}://${urlPath}:8000/kanbanBoards/board/user/${user_id}/`;
+  const getUserUrl = `${http}://${urlPath}:8000/kanbanBoards/user/${user_id}/`;
 
   const getData = async () => {
     const userResponse = await fetch(getUserUrl);

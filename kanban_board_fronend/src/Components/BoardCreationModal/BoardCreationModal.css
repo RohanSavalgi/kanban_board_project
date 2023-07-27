@@ -46,8 +46,8 @@
   margin: 1rem;
 }
 
-.buttonStyle{
-    padding: 0.4rem 1rem;
+.buttonStyle {
+  padding: 0.4rem 1rem;
 }
 
 .boardInputField {
@@ -69,19 +69,19 @@
   font-size: 1.4rem;
 }
 
-.createButtonTray{
-    margin-top: 2rem;
-    width: 100%;
+.createButtonTray {
+  margin-top: 2rem;
+  width: 100%;
 
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: flex-end;
-    gap: 1rem;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  gap: 1rem;
 }
 
-.boardSaveButton{
-    background: linear-gradient(0deg, #2a4ecb, #2a4ecb),
+.boardSaveButton {
+  background: linear-gradient(0deg, #2a4ecb, #2a4ecb),
     linear-gradient(0deg, #d9d9d9, #d9d9d9);
 
-    color: white;
+  color: white;
 }

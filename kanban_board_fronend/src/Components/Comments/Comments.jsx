@@ -4,20 +4,18 @@ import urlPath from "../../URL/url";
 import "./Comments.css";
 
 const Comments = (props) => {
-  // console.log("hello ok " + props.eventIdPassed);
   const [comments, setComments] = useState([]);
   const [eventId, setEventId] = useState(0);
-  
-  
+
   useEffect(() => {
-    setEventId(props.eventIdPassed)
+    setEventId(props.eventIdPassed);
     fetchData();
   }, []);
-  
+
+  // gets all the comments for that particular event
   const fetchData = async () => {
     setEventId(props.eventIdPassed);
     const respose = await fetch(getCommentsUrl);
-    console.log(getCommentsUrl);
     const commentsJson = await respose.json();
     setComments(commentsJson);
   };

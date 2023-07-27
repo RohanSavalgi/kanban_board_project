@@ -8,15 +8,19 @@ const DarkLighButton = () => {
   const [themeState, setThemeState] = useState("light");
 
   useEffect(() => {
-    document.body.classList.add('light');
-  },[])
+    setThemeState(localStorage.getItem("theme"));
+  }, [localStorage.getItem("theme")]);
 
+  // sets a theme to the overall apperance
   const onClickHandler = () => {
-    if (themeState == "light") {
+    console.log(localStorage.getItem("theme"));
+    if (localStorage.getItem("theme") == "light") {
+      localStorage.setItem("theme", "dark");
       document.body.classList.remove("light");
       document.body.classList.add("dark");
       setThemeState("dark");
-    } else if (themeState == "dark") {
+    } else if (localStorage.getItem("theme") == "dark") {
+      localStorage.setItem("theme", "light");
       document.body.classList.remove("dark");
       document.body.classList.add("light");
       setThemeState("light");
@@ -28,8 +32,12 @@ const DarkLighButton = () => {
       <div className="darkLightButton">
         <div className="darkLightContents">
           <button className="darkLightButton" onClick={onClickHandler}>
-            { themeState == "light" && <img className="darkLightImage" src={moon} />}
-            { themeState == "dark" && <img className="darkLightImage" src={sun} />}
+            {themeState == "light" && (
+              <img className="darkLightImage" src={moon} />
+            )}
+            {themeState == "dark" && (
+              <img className="darkLightImage" src={sun} />
+            )}
           </button>
         </div>
       </div>

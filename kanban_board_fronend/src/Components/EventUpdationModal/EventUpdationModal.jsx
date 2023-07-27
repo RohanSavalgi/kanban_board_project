@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import urlPath from "../../URL/url";
+import http from '../../URL/httpsOrhttps'
 
 import "./EventUpdationModal.css";
 import closeButton from "../../assets/closeButton.png";
-import SnackBarNotification from "../SnackBarNotification/SnackBarNotification";
 
 const EventUpdationModal = (props) => {
   const date = new Date();
 
-  const url = `http://${urlPath}:8000/kanbanBoards/events/${props.eventId}/`;
-  const statusUrl = `http://${urlPath}:8000/kanbanBoards/status/`;
-  const priorityUrl = `http://${urlPath}:8000/kanbanBoards/priority/`;
-  const creatUrl = `http://${urlPath}:8000/kanbanBoards/event/`;
-  const deleteUrl = `http://${urlPath}:8000/kanbanBoards/events/${props.eventId}/`;
-  const createCommentUrl = `http://${urlPath}:8000/kanbanBoards/comment/`;
+  // all urls needed for various get, post methods
+  const url = `${http}://${urlPath}:8000/kanbanBoards/events/${props.eventId}/`;
+  const statusUrl = `${http}://${urlPath}:8000/kanbanBoards/status/`;
+  const priorityUrl = `${http}://${urlPath}:8000/kanbanBoards/priority/`;
+  const creatUrl = `${http}://${urlPath}:8000/kanbanBoards/event/`;
+  const deleteUrl = `${http}://${urlPath}:8000/kanbanBoards/events/${props.eventId}/`;
+  const createCommentUrl = `${http}://${urlPath}:8000/kanbanBoards/comment/`;
 
+  // use states
+  const [formData, setFormData] = useState(false);
   const [eventData, setEventData] = useState({});
   const [statusData, setStatusData] = useState([]);
   const [priorityData, setPriorityData] = useState([]);
@@ -56,8 +59,6 @@ const EventUpdationModal = (props) => {
     }
   }
 
-  const [formData, setFormData] = useState(false);
-
   const checkForm = (data) => {
     for (var key in data) {
       if (data[key] == "") {
@@ -75,6 +76,7 @@ const EventUpdationModal = (props) => {
     setSelectionForPriority(event.target.value);
   };
 
+  // this function checks if it is post or put method based on the id of the event.
   const onSubmitHandler = async (event) => {
     if (props.eventId != 0) {
       event.preventDefault();
@@ -94,7 +96,6 @@ const EventUpdationModal = (props) => {
         status: event.target.status.value,
         story_points: Number(event.target.storyPoints.value),
       };
-      console.log(formData);
       if (checkForm(formData) == false) {
         return null;
       }
@@ -142,8 +143,6 @@ const EventUpdationModal = (props) => {
       if (checkForm(data) == false) {
         return null;
       }
-      console.log(data);
-
       const reponse = await fetch(creatUrl, {
         method: "POST",
         body: JSON.stringify({
@@ -171,21 +170,21 @@ const EventUpdationModal = (props) => {
     }
   };
 
+  // fetches all the comments for a particular event
   const fetchComments = async () => {
     if (props.eventId != 0) {
       const getCommentsUrl = `http://${urlPath}:8000/kanbanBoards/comment/${props.eventId}/`;
       const respose = await fetch(getCommentsUrl);
-      console.log(getCommentsUrl);
       const commentsJson = await respose.json();
       setComments(commentsJson);
     }
   };
 
+  // fetches the initial data from the database, to be presented to the use
   const fetchData = async () => {
     if (props.eventId != 0) {
       const getCommentsUrl = `http://${urlPath}:8000/kanbanBoards/comment/${props.eventId}/`;
       const respose = await fetch(getCommentsUrl);
-      console.log(getCommentsUrl);
       const commentsJson = await respose.json();
       setComments(commentsJson);
     }
@@ -198,7 +197,6 @@ const EventUpdationModal = (props) => {
       const data = await fetch(url);
       const jsonData = await data.json();
       setEventData(jsonData[0]);
-      console.log(jsonData)
       setSelectionForStatus(jsonData[0].status);
       setSelectionForPriority(jsonData[0].priority);
 
@@ -212,6 +210,7 @@ const EventUpdationModal = (props) => {
     setPriorityData(priorityJsonData);
   };
 
+  // delete method to remove a event
   const deleteData = async (event) => {
     event.preventDefault();
     const response = fetch(deleteUrl, {
@@ -222,6 +221,7 @@ const EventUpdationModal = (props) => {
     props.setFalse();
   };
 
+  // creates a new comment for the respective event
   const createComment = async (event) => {
     event.preventDefault();
     const reponse = await fetch(createCommentUrl, {
@@ -262,6 +262,7 @@ const EventUpdationModal = (props) => {
                   <div className="modalStoryPoints">
                     <div className="modalInputTitle">Title</div>
                     <input
+                      required
                       type="text"
                       name="eventName"
                       className="modalEventNameField"
@@ -273,6 +274,7 @@ const EventUpdationModal = (props) => {
                   <div className="modalDescription">
                     <div className="modalDescriptionText">Description</div>
                     <textarea
+                      required
                       className="modalDescriptionField"
                       defaultValue={eventData.event_discription}
                       name="description"
@@ -321,10 +323,11 @@ const EventUpdationModal = (props) => {
                     <div className="modalStoryPoints">
                       <div className="modalDescriptionText">Story Points</div>
                       <input
+                        required
                         type="text"
                         name="storyPoints"
                         className="modalStoryPointsField"
-                        value={eventData.story_point}
+                        defaultValue={eventData.story_point}
                       />
                     </div>
                   </div>
@@ -333,6 +336,7 @@ const EventUpdationModal = (props) => {
                   <div>
                     <div className="modalDescriptionText">Start Date</div>
                     <input
+                      required
                       type="date"
                       className="dateInput"
                       min={date.getDate()}
@@ -344,6 +348,7 @@ const EventUpdationModal = (props) => {
                   <div>
                     <div className="modalDescriptionText">End Date</div>
                     <input
+                      required
                       type="date"
                       name="endDate"
                       className="dateInput"
@@ -357,6 +362,7 @@ const EventUpdationModal = (props) => {
                       Acceptance Criteria
                     </div>
                     <textarea
+                      required
                       name="summary"
                       className="modalDescriptionField"
                       defaultValue={eventData.event_summary}

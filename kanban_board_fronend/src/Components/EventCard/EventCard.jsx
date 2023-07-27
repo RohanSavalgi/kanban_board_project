@@ -6,15 +6,14 @@ import redArrow from "../../assets/redArrowDown.png";
 import "./EventCard.css";
 
 const EventCard = (props) => {
-
-  const eventData = {};
-
+  // checks the priority of each event card and sets text related to it
   const priorityCheck = () => {
     if (props.priority == "3" || props.priority == "4") return "Low";
     else if (props.priority == "2") return "Medium";
     else return "High";
   };
 
+  // checks the priority and sets a image to related to the respective priority
   const imagePicker = () => {
     if (props.priority == "3" || props.priority == "4") return greenArrow;
     else if (props.priority == "2") return blueArrow;

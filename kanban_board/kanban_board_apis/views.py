@@ -9,10 +9,10 @@ from .models import *
 
 # Global variables
 all_error_dictionary = {
-    "invalid_id_error" : JsonResponse(json.loads('{"error" : "User Id ID is not valid.Eigher its a invalid integer or a string."}'), status = status.HTTP_204_NO_CONTENT, safe = False),
+    "invalid_id_error" : JsonResponse(json.loads('{"error" : "User Id ID is not valid.Eigher its a invalid integer or a string."}'), status = status.HTTP_400_BAD_REQUEST, safe = False),
     "not_found_element": JsonResponse(json.loads('{"error" : "No element was found with this ID"}'), status = status.HTTP_404_NOT_FOUND, safe = False),
-    "request_data_invalid" : JsonResponse(json.loads('{"error" : "The request data which was entered is not valid."}'), status = status.HTTP_404_NOT_FOUND, safe = False),
-    "could_not_update": JsonResponse(json.loads('{"error" : "We could not update the database."}'), status = status.HTTP_404_NOT_FOUND, safe = False),
+    "request_data_invalid" : JsonResponse(json.loads('{"error" : "The request data which was entered is not valid."}'), status = status.HTTP_400_BAD_REQUEST, safe = False),
+    "could_not_update": JsonResponse(json.loads('{"error" : "We could not update the database."}'), status = status.HTTP_304_NOT_MODIFIED, safe = False),
     "no_elements_found": JsonResponse(json.loads('{"error" : "No elements found."}'), status = status.HTTP_404_NOT_FOUND, safe = False),
 }
 
@@ -87,7 +87,7 @@ class createKanbanBoard(View, PostData):
         serializedBoardData = KanbanBoardSerializer(data=jsonDataOfRequest)
         if serializedBoardData.is_valid():
             serializedBoardData.save()
-            return JsonResponse(serializedBoardData.data, status = status.HTTP_200_OK, safe = False)
+            return JsonResponse(serializedBoardData.data, status = status.HTTP_201_CREATED, safe = False)
         else:
             return all_error_dictionary['invalid_id_error']
            
@@ -102,7 +102,7 @@ class EventData(View, PostData, GetData):
         serializedEvent = EventSerializer(data = jsonConverted)
         if serializedEvent.is_valid():
             serializedEvent.save()
-            return JsonResponse(serializedEvent.data, status = status.HTTP_200_OK, safe = False)
+            return JsonResponse(serializedEvent.data, status = status.HTTP_201_CREATED, safe = False)
         else:
             return JsonResponse(serializedEvent.errors, status = status.HTTP_400_BAD_REQUEST, safe = False)
     def get(self, request, input_kanban_id):
@@ -192,7 +192,7 @@ class createComment(PostData, View):
         serializedComment = CommentSerializer(data = requestConvertedToJson)
         if serializedComment.is_valid():
             serializedComment.save()
-            return JsonResponse(serializedComment.data, status = status.HTTP_200_OK, safe = False)
+            return JsonResponse(serializedComment.data, status = status.HTTP_201_CREATED, safe = False)
         else:
             return JsonResponse(serializedComment.errors, status = status.HTTP_400_BAD_REQUEST, safe = False)
 
@@ -220,12 +220,12 @@ class login(PostData, View):
         requestConvertedToJson = json.loads(request.body)
         getUsername = Users.objects.filter(user_email = requestConvertedToJson['user_email'])
         if not getUsername.exists():
-            return JsonResponse("Failed", status = status.HTTP_403_FORBIDDEN, safe = False) 
+            return JsonResponse("Failed", status = status.HTTP_204_NO_CONTENT, safe = False) 
         getUser = Users.objects.get(user_email = requestConvertedToJson['user_email'])
         serializedUser = UserSerializer(getUser);
         if serializedUser.data['user_password'] == requestConvertedToJson['user_password']:
-                return JsonResponse(serializedUser.data, status = status.HTTP_200_OK, safe = False)
-        return JsonResponse("Failed", status = status.HTTP_403_FORBIDDEN, safe = False) 
+                return JsonResponse(serializedUser.data, status = status.HTTP_202_ACCEPTED, safe = False)
+        return JsonResponse("Failed", status = status.HTTP_401_UNAUTHORIZED, safe = False) 
     
 # REGISTER A NEW USER FUNCTIONALITY
 class register(PostData, View):
@@ -237,7 +237,7 @@ class register(PostData, View):
         serializedUserData = UserSerializer(data = userData)
         if serializedUserData.is_valid():
             serializedUserData.save()
-            return JsonResponse("Registered", status = status.HTTP_200_OK, safe = False);
+            return JsonResponse("Registered", status = status.HTTP_201_CREATED, safe = False);
         else:
             return JsonResponse(serializedUserData.errors, status = status.HTTP_400_BAD_REQUEST, safe = False)
     

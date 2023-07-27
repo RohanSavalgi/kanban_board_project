@@ -1,35 +1,35 @@
-.darkLightButton{
-    width: 4rem;
-    height: 4rem;
+.darkLightButton {
+  width: 4rem;
+  height: 4rem;
 
-    position: fixed;
-    top: 3rem;
-    right: 0rem;
+  position: fixed;
+  top: 3rem;
+  right: 3rem;
 
-    border-radius: 50px;
-    background-color: var(--main);
-    border: 1px solid var(--secondary);
+  border-radius: 50px;
+  background-color: var(--main);
+  border: 1px solid var(--secondary);
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.darkLightContents{
-    width: 80%;
-    height: 90%;
+.darkLightContents {
+  width: 80%;
+  height: 90%;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.darkLightButton{
-    /* filter: blur(10px); */
-    /* border: 1px solid grey; */
+.darkLightButton {
+  /* filter: blur(10px); */
+  /* border: 1px solid grey; */
 }
 
-.darkLightImage{
-    width: 30px;
-    height: 30px;
+.darkLightImage {
+  width: 30px;
+  height: 30px;
 }
